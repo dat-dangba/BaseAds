@@ -42,10 +42,41 @@ public class Admob : MonoBehaviour
 
     private void LoadAds()
     {
-        appOpenAd.LoadAd(adsConfig.AppOpenAdUnitIdAdmob);
-        bannerAd.LoadAd(adsConfig.BannerAdUnitIdAdmob);
-        bannerCollapsibleAd.LoadAd(adsConfig.BannerCollapsibleAdUnitIdAdmob);
-        interstitialAd.LoadAd(adsConfig.InterstitialAdUnitIdAdmob);
+        Debug.LogWarning($"Ads - Admob - LoadAds");
+        LoadAppOpenAd();
+        LoadBannerAd();
+        LoadBannerCollapsibleAd();
+        LoadInterstitialAd();
+        LoadRewardedAd();
+    }
+
+    private void LoadRewardedAd()
+    {
+        if (!adsConfig.RewardedAdEnabled) return;
         rewardedAd.LoadAd(adsConfig.RewardedAdUnitIdAdmob);
+    }
+
+    private void LoadInterstitialAd()
+    {
+        if (!adsConfig.InterstitialAdEnabled) return;
+        interstitialAd.LoadAd(adsConfig.InterstitialAdUnitIdAdmob);
+    }
+
+    private void LoadBannerCollapsibleAd()
+    {
+        if (!adsConfig.BannerCollapsibleAdEnabled) return;
+        bannerCollapsibleAd.LoadAd(adsConfig.BannerCollapsibleAdUnitIdAdmob);
+    }
+
+    private void LoadBannerAd()
+    {
+        if (!adsConfig.BannerAdEnabled) return;
+        bannerAd.LoadAd(adsConfig.BannerAdUnitIdAdmob);
+    }
+
+    private void LoadAppOpenAd()
+    {
+        if (!adsConfig.AppOpenAdEnabled) return;
+        appOpenAd.LoadAd(adsConfig.AppOpenAdUnitIdAdmob);
     }
 }

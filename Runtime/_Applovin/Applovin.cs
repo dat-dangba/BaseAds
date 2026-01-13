@@ -43,10 +43,34 @@ public class Applovin : MonoBehaviour
 
     private void LoadAds()
     {
-        Debug.Log($"Ads - Applovin - LoadAds");
-        appOpenAd.LoadAd(adsConfig.AppOpenAdUnitIdApplovin);
-        bannerAd.LoadAd(adsConfig.BannerAdUnitIdApplovin);
-        interstitialAd.LoadAd(adsConfig.InterstitialAdUnitIdApplovin);
+        Debug.LogWarning($"Ads - Applovin - LoadAds");
+        LoadAppOpenAd();
+        LoadBannerAd();
+        LoadInterstitialAd();
+        LoadRewardedAd();
+    }
+
+    private void LoadRewardedAd()
+    {
+        if (!adsConfig.RewardedAdEnabled) return;
         rewardedAdAd.LoadAd(adsConfig.RewardedAdUnitIdApplovin);
+    }
+
+    private void LoadInterstitialAd()
+    {
+        if (!adsConfig.InterstitialAdEnabled) return;
+        interstitialAd.LoadAd(adsConfig.InterstitialAdUnitIdApplovin);
+    }
+
+    private void LoadBannerAd()
+    {
+        if (!adsConfig.BannerAdEnabled) return;
+        bannerAd.LoadAd(adsConfig.BannerAdUnitIdApplovin);
+    }
+
+    private void LoadAppOpenAd()
+    {
+        if (!adsConfig.AppOpenAdEnabled) return;
+        appOpenAd.LoadAd(adsConfig.AppOpenAdUnitIdApplovin);
     }
 }

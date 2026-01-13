@@ -23,6 +23,9 @@ public abstract class BaseAdsManager<INSTANCE> : MonoBehaviour
     public bool IsRemoveAds { get; private set; }
     public bool IsInit { get; private set; }
 
+    private const string AppOpenStartGame = "app_open_start_game";
+    private const string AppOpenResumeGame = "app_open_resume_game";
+
 #if UNITY_EDITOR
     private void Setup()
     {
@@ -189,9 +192,10 @@ public abstract class BaseAdsManager<INSTANCE> : MonoBehaviour
     protected virtual void InitAds()
     {
         admob.Init(adsConfig);
-        admob.AppOpenAd.SetShowResumeGame(CanShowAppOpenAd(AdConstant.AppOpenResumeGame));
-        // applovin.Init(adsConfig);
-        // applovin.AppOpenAd.SetShowResumeGame(CanShowAppOpenAd(AdConstant.AppOpenResumeGame));
+        applovin.Init(adsConfig);
+        if (!adsConfig.AppOpenAdEnabled) return;
+        admob.AppOpenAd.SetShowResumeGame(CanShowAppOpenAd(AppOpenResumeGame));
+        applovin.AppOpenAd.SetShowResumeGame(CanShowAppOpenAd(AppOpenResumeGame));
     }
 
     protected virtual void OnAdClicked(AdEventData adEventData)
@@ -217,7 +221,7 @@ public abstract class BaseAdsManager<INSTANCE> : MonoBehaviour
         }
     }
 
-    public virtual void ShowAppOpenAd(Action<bool> OnAdClose, string adPlacement = AdConstant.AppOpenStartGame)
+    public virtual void ShowAppOpenAd(Action<bool> OnAdClose, string adPlacement = AppOpenStartGame)
     {
         if (!CanShowAppOpenAd(adPlacement))
         {
@@ -240,7 +244,7 @@ public abstract class BaseAdsManager<INSTANCE> : MonoBehaviour
 
     private void OnAppOpenAdClose(bool b, Action<bool> OnAdClose, string adPlacement)
     {
-        if (adPlacement == AdConstant.AppOpenStartGame)
+        if (adPlacement == AppOpenStartGame)
         {
             isStartGame = true;
         }
@@ -250,7 +254,7 @@ public abstract class BaseAdsManager<INSTANCE> : MonoBehaviour
 
     protected virtual void ShowAppOpenAdResumeGame()
     {
-        ShowAppOpenAd(null, AdConstant.AppOpenResumeGame);
+        ShowAppOpenAd(null, AppOpenResumeGame);
     }
 
     public virtual bool CanShowAppOpenAd(string adPlacement)
