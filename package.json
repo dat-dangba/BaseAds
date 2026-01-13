@@ -1,0 +1,15 @@
+{
+  "name": "com.datdb.baseads",
+  "displayName": "DBD-BaseAds",
+  "description": "Base Ads",
+  "author": "datdb",
+  "version": "1.0.0",
+  "website": "https://github.com/dat-dangba/BaseAds",
+  "samples": [
+    {
+      "displayName": "Ads Sample",
+      "description": "Ads Sample",
+      "path": "Samples~/Ads Sample"
+    }
+  ]
+}

@@ -1,0 +1,454 @@
+using System;
+using System.IO;
+using GoogleMobileAds.Api;
+using GoogleMobileAds.Common;
+using UnityEditor;
+using UnityEngine;
+
+public abstract class BaseAdsManager<INSTANCE> : MonoBehaviour
+{
+    public static INSTANCE Instance { get; private set; }
+
+    [SerializeField] private Consent consent;
+    [SerializeField] private Admob admob;
+    [SerializeField] private Applovin applovin;
+
+    [SerializeField] private AdsConfig adsConfig;
+
+    private bool isStartGame;
+    private bool canShowAppOpenAdResumeGame = true;
+
+    private float timeShowInterstitial;
+
+    public bool IsRemoveAds { get; private set; }
+    public bool IsInit { get; private set; }
+
+#if UNITY_EDITOR
+    private void Setup()
+    {
+        GetAdsConfig();
+        AddConsent();
+        AddAdmob();
+        AddApplovin();
+    }
+
+    private void GetAdsConfig()
+    {
+        adsConfig = Resources.Load<AdsConfig>("AdsConfig");
+        if (adsConfig != null) return;
+        Directory.CreateDirectory("Assets/Resources");
+        adsConfig = ScriptableObject.CreateInstance<AdsConfig>();
+        string assetPath = Path.Combine("Assets/Resources", "AdsConfig.asset");
+        AssetDatabase.CreateAsset(adsConfig, assetPath);
+        AssetDatabase.SaveAssets();
+    }
+
+    private void AddApplovin()
+    {
+        Transform trans = transform.Find("Applovin");
+        if (trans != null)
+        {
+            DestroyImmediate(trans.gameObject);
+        }
+
+        GameObject applovinGO = new GameObject("Applovin");
+        applovinGO.transform.SetParent(transform);
+        applovin = applovinGO.AddComponent<Applovin>();
+    }
+
+    private void AddAdmob()
+    {
+        Transform trans = transform.Find("Admob");
+        if (trans != null)
+        {
+            DestroyImmediate(trans.gameObject);
+        }
+
+        GameObject admobGO = new GameObject("Admob");
+        admobGO.transform.SetParent(transform);
+        admob = admobGO.AddComponent<Admob>();
+    }
+
+    private void AddConsent()
+    {
+        Transform trans = transform.Find("Consent");
+        if (trans != null)
+        {
+            DestroyImmediate(trans.gameObject);
+        }
+
+        GameObject consentGO = new GameObject("Consent");
+        consentGO.transform.SetParent(transform);
+        consent = consentGO.AddComponent<Consent>();
+    }
+
+    protected virtual void Reset()
+    {
+        Setup();
+    }
+#endif
+
+    protected virtual void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = GetComponent<INSTANCE>();
+
+            Transform root = transform.root;
+            if (root != transform)
+            {
+                DontDestroyOnLoad(root);
+            }
+            else
+            {
+                DontDestroyOnLoad(gameObject);
+            }
+
+            AppStateEventNotifier.AppStateChanged += OnAppStateChanged;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    protected virtual void OnDestroy()
+    {
+        AppStateEventNotifier.AppStateChanged -= OnAppStateChanged;
+    }
+
+    protected virtual void OnApplicationFocus(bool hasFocus)
+    {
+    }
+
+    protected virtual void OnApplicationPause(bool pauseStatus)
+    {
+    }
+
+    protected virtual void OnEnable()
+    {
+        Consent.OnRequestConsentCompleted += OnRequestConsentCompleted;
+        AdAction.OnAppOpenAdResumeGameCanShowChanged += OnAppOpenAdResumeGameCanShowChanged;
+        AdAction.OnAdPaid += OnAdPaid;
+        AdAction.OnAdClicked += OnAdClicked;
+    }
+
+    protected virtual void OnDisable()
+    {
+        Consent.OnRequestConsentCompleted -= OnRequestConsentCompleted;
+        AdAction.OnAppOpenAdResumeGameCanShowChanged -= OnAppOpenAdResumeGameCanShowChanged;
+        AdAction.OnAdPaid -= OnAdPaid;
+        AdAction.OnAdClicked -= OnAdClicked;
+    }
+
+    protected virtual void Start()
+    {
+    }
+
+    protected virtual void Update()
+    {
+    }
+
+    protected virtual void FixedUpdate()
+    {
+    }
+
+    public virtual void Init(bool isRemoveAds)
+    {
+        if (IsInit)
+        {
+            return;
+        }
+
+        IsRemoveAds = isRemoveAds;
+
+        UpdateAdsConfig(adsConfig);
+
+        Debug.Log($"datdb - consent.CanRequestAds {consent.CanRequestAds}");
+        if (consent.CanRequestAds)
+        {
+            InitAds();
+        }
+        else
+        {
+            consent.Request();
+        }
+    }
+
+    protected abstract void UpdateAdsConfig(AdsConfig adsConfig);
+
+    protected virtual void OnRequestConsentCompleted(bool isSuccess)
+    {
+        Debug.Log($"datdb - OnRequestConsentCompleted {isSuccess}");
+        if (isSuccess)
+        {
+            InitAds();
+        }
+    }
+
+    protected virtual void InitAds()
+    {
+        admob.Init(adsConfig);
+        admob.AppOpenAd.SetShowResumeGame(CanShowAppOpenAd(AdConstant.AppOpenResumeGame));
+        // applovin.Init(adsConfig);
+        // applovin.AppOpenAd.SetShowResumeGame(CanShowAppOpenAd(AdConstant.AppOpenResumeGame));
+    }
+
+    protected virtual void OnAdClicked(AdEventData adEventData)
+    {
+    }
+
+    protected virtual void OnAdPaid(AdPaidEventData adPaidEventData)
+    {
+    }
+
+    #region AppOpenAd
+
+    private void OnAppOpenAdResumeGameCanShowChanged(bool canShow)
+    {
+        canShowAppOpenAdResumeGame = canShow;
+    }
+
+    private void OnAppStateChanged(AppState state)
+    {
+        if (state == AppState.Foreground && canShowAppOpenAdResumeGame && isStartGame)
+        {
+            Invoke(nameof(ShowAppOpenAdResumeGame), 0.1f);
+        }
+    }
+
+    public virtual void ShowAppOpenAd(Action<bool> OnAdClose, string adPlacement = AdConstant.AppOpenStartGame)
+    {
+        if (!CanShowAppOpenAd(adPlacement))
+        {
+            OnAppOpenAdClose(false, OnAdClose, adPlacement);
+            return;
+        }
+
+        switch (adsConfig.AppOpenAdNetWork)
+        {
+            case AdNetwork.Applovin:
+                applovin.AppOpenAd.Show(b => { OnAppOpenAdClose(b, OnAdClose, adPlacement); }, adPlacement);
+                break;
+            case AdNetwork.Admob:
+                admob.AppOpenAd.Show(b => { OnAppOpenAdClose(b, OnAdClose, adPlacement); }, adPlacement);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void OnAppOpenAdClose(bool b, Action<bool> OnAdClose, string adPlacement)
+    {
+        if (adPlacement == AdConstant.AppOpenStartGame)
+        {
+            isStartGame = true;
+        }
+
+        OnAdClose?.Invoke(b);
+    }
+
+    protected virtual void ShowAppOpenAdResumeGame()
+    {
+        ShowAppOpenAd(null, AdConstant.AppOpenResumeGame);
+    }
+
+    public virtual bool CanShowAppOpenAd(string adPlacement)
+    {
+        return adsConfig.AppOpenAdEnabled && CanShowAppOpenAdInternal(adPlacement);
+    }
+
+    protected abstract bool CanShowAppOpenAdInternal(string adPlacement);
+
+    #endregion
+
+    #region Banner
+
+    public void HideBannerAd()
+    {
+        switch (adsConfig.BannerAdNetWork)
+        {
+            case AdNetwork.Admob:
+                admob.BannerAd.Show(false, "");
+                break;
+            case AdNetwork.Applovin:
+                applovin.BannerAd.Show(false, "");
+                break;
+        }
+    }
+
+    public virtual void ShowBannerAd(string adPlacement)
+    {
+        if (!CanShowBannerAd(adPlacement)) return;
+
+        switch (adsConfig.BannerAdNetWork)
+        {
+            case AdNetwork.Admob:
+                admob.BannerAd.Show(true, adPlacement);
+                break;
+            case AdNetwork.Applovin:
+                applovin.BannerAd.Show(true, adPlacement);
+                break;
+        }
+    }
+
+    public virtual void ShowBannerAd()
+    {
+        if (!adsConfig.BannerAdEnabled) return;
+
+        switch (adsConfig.BannerAdNetWork)
+        {
+            case AdNetwork.Admob:
+                admob.BannerAd.Show();
+                break;
+            case AdNetwork.Applovin:
+                applovin.BannerAd.Show();
+                break;
+        }
+    }
+
+    public virtual bool CanShowBannerAd(string adPlacement)
+    {
+        return adsConfig.BannerAdEnabled && CanShowBannerAdInternal(adPlacement);
+    }
+
+    protected abstract bool CanShowBannerAdInternal(string adPlacement);
+
+    public float GetBannerHeightInPixels()
+    {
+#if UNITY_EDITOR
+        return 170;
+#elif UNITY_ANDROID || UNITY_IOS
+        return adsConfig.BannerAdNetWork switch
+        {
+            AdNetwork.Admob => admob.BannerAd.GetHeightInPixels(),
+            AdNetwork.Applovin => applovin.BannerAd.GetHeightInPixels(),
+            _ => 170
+        };
+#endif
+    }
+
+    #endregion
+
+    #region BannerCollapsible
+
+    public void ShowBannerCollapsibleAd(string adPlacement)
+    {
+        if (!CanShowBannerCollapsibleAd(adPlacement)) return;
+
+        admob.BannerCollapsibleAd.Show(adPlacement);
+    }
+
+    public virtual bool CanShowBannerCollapsibleAd(string adPlacement)
+    {
+        return adsConfig.BannerCollapsibleAdEnabled && CanShowBannerCollapsibleAdInternal(adPlacement);
+    }
+
+    protected abstract bool CanShowBannerCollapsibleAdInternal(string adPlacement);
+
+    #endregion
+
+    #region Interstitial
+
+    public bool IsInterstitialAdReady()
+    {
+        return adsConfig.InterstitialAdNetWork switch
+        {
+            AdNetwork.Applovin => applovin.InterstitialAd.IsAdReady(),
+            AdNetwork.Admob => admob.InterstitialAd.IsAdReady(),
+            _ => false
+        };
+    }
+
+    public void ShowInterstitialAd(Action<bool> OnAdClose, string adPlacement)
+    {
+        if (!CanShowInterstitialAd(adPlacement)
+            || !IsInterstitialAdReady()
+            || !CanShowInterstitialAfterCooldown(adPlacement)
+           ) return;
+
+        switch (adsConfig.InterstitialAdNetWork)
+        {
+            case AdNetwork.Applovin:
+                applovin.InterstitialAd.Show(
+                    isShowBeforeClose => { OnInterstitialAdClose(isShowBeforeClose, OnAdClose); },
+                    adPlacement);
+                break;
+            case AdNetwork.Admob:
+                admob.InterstitialAd.Show(
+                    isShowBeforeClose => { OnInterstitialAdClose(isShowBeforeClose, OnAdClose); },
+                    adPlacement);
+                break;
+        }
+    }
+
+    private void OnInterstitialAdClose(bool isShowBeforeClose, Action<bool> OnAdClose)
+    {
+        if (isShowBeforeClose)
+        {
+            timeShowInterstitial = Time.time;
+        }
+
+        OnAdClose?.Invoke(isShowBeforeClose);
+    }
+
+    protected virtual bool CanShowInterstitialAfterCooldown(string adPlacement)
+    {
+        return timeShowInterstitial == 0 || Time.time - timeShowInterstitial >= GetInterstitialAdCoolDown(adPlacement);
+    }
+
+    public virtual bool CanShowInterstitialAd(string adPlacement)
+    {
+        return adsConfig.InterstitialAdEnabled && CanShowInterstitialAdInternal(adPlacement);
+    }
+
+    protected abstract bool CanShowInterstitialAdInternal(string adPlacement);
+
+    protected abstract float GetInterstitialAdCoolDown(string adPlacement);
+
+    #endregion
+
+    #region RewardedAd
+
+    public bool IsRewardedAdReady()
+    {
+        switch (adsConfig.RewardedAdNetWork)
+        {
+            case AdNetwork.Admob:
+                return admob.RewardedAd.IsAdReady();
+            case AdNetwork.Applovin:
+                return applovin.RewardedAdAd.IsAdReady();
+            default:
+                return false;
+        }
+    }
+
+    public void ShowRewardedAd(Action<bool> OnAdDisplayed, Action<bool> OnAdReceived, string adPlacement)
+    {
+        if (!CanShowRewardedAd(adPlacement))
+        {
+            OnAdDisplayed?.Invoke(false);
+            OnAdReceived?.Invoke(false);
+            return;
+        }
+
+        switch (adsConfig.RewardedAdNetWork)
+        {
+            case AdNetwork.Admob:
+                admob.RewardedAd.Show(OnAdDisplayed, OnAdReceived, adPlacement);
+                break;
+            case AdNetwork.Applovin:
+                applovin.RewardedAdAd.Show(OnAdDisplayed, OnAdReceived, adPlacement);
+                break;
+        }
+    }
+
+    public virtual bool CanShowRewardedAd(string adPlacement)
+    {
+        return adsConfig.RewardedAdEnabled && CanShowRewardedAdInternal(adPlacement);
+    }
+
+    protected abstract bool CanShowRewardedAdInternal(string adPlacement);
+
+    #endregion
+}

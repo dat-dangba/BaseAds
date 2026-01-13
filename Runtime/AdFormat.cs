@@ -1,0 +1,11 @@
+public enum AdFormat
+{
+    BANNER,
+    BANNER_COLLAPSIBLE,
+    INTERSTITIAL,
+    REWARDED,
+    REWARDED_INTERSTITIAL,
+    NATIVE,
+    APP_OPEN,
+    MREC
+}
