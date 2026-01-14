@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(AppOpenAdAdmob))]
 [RequireComponent(typeof(BannerAdAdmob))]
-[RequireComponent(typeof(BannerCollapsibleAdAdmob))]
+// [RequireComponent(typeof(BannerCollapsibleAdAdmob))]
 [RequireComponent(typeof(InterstitialAdAdmob))]
 [RequireComponent(typeof(RewardedAdAdmob))]
 public class Admob : MonoBehaviour
@@ -12,13 +12,13 @@ public class Admob : MonoBehaviour
 
     [SerializeField] private AppOpenAdAdmob appOpenAd;
     [SerializeField] private BannerAdAdmob bannerAd;
-    [SerializeField] private BannerCollapsibleAdAdmob bannerCollapsibleAd;
+    // [SerializeField] private BannerCollapsibleAdAdmob bannerCollapsibleAd;
     [SerializeField] private InterstitialAdAdmob interstitialAd;
     [SerializeField] private RewardedAdAdmob rewardedAd;
 
     public AppOpenAdAdmob AppOpenAd => appOpenAd;
     public BannerAdAdmob BannerAd => bannerAd;
-    public BannerCollapsibleAdAdmob BannerCollapsibleAd => bannerCollapsibleAd;
+    // public BannerCollapsibleAdAdmob BannerCollapsibleAd => bannerCollapsibleAd;
     public InterstitialAdAdmob InterstitialAd => interstitialAd;
     public RewardedAdAdmob RewardedAd => rewardedAd;
 
@@ -26,7 +26,7 @@ public class Admob : MonoBehaviour
     {
         appOpenAd = GetComponent<AppOpenAdAdmob>();
         bannerAd = GetComponent<BannerAdAdmob>();
-        bannerCollapsibleAd = GetComponent<BannerCollapsibleAdAdmob>();
+        // bannerCollapsibleAd = GetComponent<BannerCollapsibleAdAdmob>();
         interstitialAd = GetComponent<InterstitialAdAdmob>();
         rewardedAd = GetComponent<RewardedAdAdmob>();
     }
@@ -45,7 +45,7 @@ public class Admob : MonoBehaviour
         Debug.LogWarning($"Ads - Admob - LoadAds");
         LoadAppOpenAd();
         LoadBannerAd();
-        LoadBannerCollapsibleAd();
+        // LoadBannerCollapsibleAd();
         LoadInterstitialAd();
         LoadRewardedAd();
     }
@@ -62,11 +62,11 @@ public class Admob : MonoBehaviour
         interstitialAd.LoadAd(adsConfig.InterstitialAdUnitIdAdmob);
     }
 
-    private void LoadBannerCollapsibleAd()
-    {
-        if (!adsConfig.BannerCollapsibleAdEnabled) return;
-        bannerCollapsibleAd.LoadAd(adsConfig.BannerCollapsibleAdUnitIdAdmob);
-    }
+    // private void LoadBannerCollapsibleAd()
+    // {
+    //     if (!adsConfig.BannerCollapsibleAdEnabled) return;
+    //     bannerCollapsibleAd.LoadAd(adsConfig.BannerCollapsibleAdUnitIdAdmob);
+    // }
 
     private void LoadBannerAd()
     {

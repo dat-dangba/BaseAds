@@ -336,23 +336,23 @@ public abstract class BaseAdsManager<INSTANCE> : MonoBehaviour
 
     #endregion
 
-    #region BannerCollapsible
-
-    public void ShowBannerCollapsibleAd(string adPlacement)
-    {
-        if (!CanShowBannerCollapsibleAd(adPlacement)) return;
-
-        admob.BannerCollapsibleAd.Show(adPlacement);
-    }
-
-    public virtual bool CanShowBannerCollapsibleAd(string adPlacement)
-    {
-        return adsConfig.BannerCollapsibleAdEnabled && CanShowBannerCollapsibleAdInternal(adPlacement);
-    }
-
-    protected abstract bool CanShowBannerCollapsibleAdInternal(string adPlacement);
-
-    #endregion
+    // #region BannerCollapsible
+    //
+    // public void ShowBannerCollapsibleAd(string adPlacement)
+    // {
+    //     if (!CanShowBannerCollapsibleAd(adPlacement)) return;
+    //
+    //     admob.BannerCollapsibleAd.Show(adPlacement);
+    // }
+    //
+    // public virtual bool CanShowBannerCollapsibleAd(string adPlacement)
+    // {
+    //     return adsConfig.BannerCollapsibleAdEnabled && CanShowBannerCollapsibleAdInternal(adPlacement);
+    // }
+    //
+    // protected abstract bool CanShowBannerCollapsibleAdInternal(string adPlacement);
+    //
+    // #endregion
 
     #region Interstitial
 

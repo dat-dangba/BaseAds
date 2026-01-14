@@ -28,8 +28,8 @@ public class AdsConfig : BuildReflectionConfigBase
 
     [BuildKey("banner_ad_unit_id_admob")] public string BannerAdUnitIdAdmob;
 
-    [BuildKey("banner_collapsible_ad_unit_id_admob")]
-    public string BannerCollapsibleAdUnitIdAdmob;
+    // [BuildKey("banner_collapsible_ad_unit_id_admob")]
+    // public string BannerCollapsibleAdUnitIdAdmob;
 
     [BuildKey("interstitial_ad_unit_id_admob")]
     public string InterstitialAdUnitIdAdmob;
@@ -42,8 +42,8 @@ public class AdsConfig : BuildReflectionConfigBase
 
     [BuildKey("banner_ad_enabled")] public bool BannerAdEnabled;
 
-    [BuildKey("banner_collapsible_ad_enabled")]
-    public bool BannerCollapsibleAdEnabled;
+    // [BuildKey("banner_collapsible_ad_enabled")]
+    // public bool BannerCollapsibleAdEnabled;
 
     [BuildKey("interstitial_ad_enabled")] public bool InterstitialAdEnabled = true;
     [BuildKey("rewarded_ad_enabled")] public bool RewardedAdEnabled = true;
@@ -66,7 +66,7 @@ public class AdsConfig : BuildReflectionConfigBase
 
             (AdFormat.APP_OPEN, AdNetwork.Admob) => AppOpenAdUnitIdAdmob,
             (AdFormat.BANNER, AdNetwork.Admob) => BannerAdUnitIdAdmob,
-            (AdFormat.BANNER_COLLAPSIBLE, AdNetwork.Admob) => BannerCollapsibleAdUnitIdAdmob,
+            // (AdFormat.BANNER_COLLAPSIBLE, AdNetwork.Admob) => BannerCollapsibleAdUnitIdAdmob,
             (AdFormat.INTERSTITIAL, AdNetwork.Admob) => InterstitialAdUnitIdAdmob,
             (AdFormat.REWARDED, AdNetwork.Admob) => RewardedAdUnitIdAdmob,
 
@@ -83,7 +83,7 @@ public class AdsConfig : BuildReflectionConfigBase
 
         AppOpenAdUnitIdAdmob = "ca-app-pub-3940256099942544/9257395921";
         BannerAdUnitIdAdmob = "ca-app-pub-3940256099942544/6300978111";
-        BannerCollapsibleAdUnitIdAdmob = "ca-app-pub-3940256099942544/2014213617";
+        // BannerCollapsibleAdUnitIdAdmob = "ca-app-pub-3940256099942544/2014213617";
         InterstitialAdUnitIdAdmob = "ca-app-pub-3940256099942544/1033173712";
         RewardedAdUnitIdAdmob = "ca-app-pub-3940256099942544/5224354917";
     }
@@ -97,7 +97,7 @@ public class AdsConfig : BuildReflectionConfigBase
 
         AppOpenAdUnitIdAdmob = "ca-app-pub-3940256099942544/9257395921";
         BannerAdUnitIdAdmob = "ca-app-pub-3940256099942544/6300978111";
-        BannerCollapsibleAdUnitIdAdmob = "ca-app-pub-3940256099942544/2014213617";
+        // BannerCollapsibleAdUnitIdAdmob = "ca-app-pub-3940256099942544/2014213617";
         InterstitialAdUnitIdAdmob = "ca-app-pub-3940256099942544/1033173712";
         RewardedAdUnitIdAdmob = "ca-app-pub-3940256099942544/5224354917";
     }
