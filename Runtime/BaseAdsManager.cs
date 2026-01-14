@@ -13,7 +13,7 @@ public abstract class BaseAdsManager<INSTANCE> : MonoBehaviour
     [SerializeField] private Admob admob;
     [SerializeField] private Applovin applovin;
 
-    [SerializeField] private AdsConfig adsConfig;
+    [SerializeField] protected AdsConfig adsConfig;
 
     private bool isStartGame;
     private bool canShowAppOpenAdResumeGame = true;

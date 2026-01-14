@@ -206,7 +206,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   appOpenAd: {fileID: 222894474}
   bannerAd: {fileID: 222894473}
-  bannerCollapsibleAd: {fileID: 222894472}
   interstitialAd: {fileID: 222894471}
   rewardedAd: {fileID: 222894470}
 --- !u!114 &222894470
@@ -1532,7 +1531,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1517781277
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1548,9 +1547,9 @@ RectTransform:
   - {fileID: 257143717}
   m_Father: {fileID: 235699228}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 100, y: -250}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1517781278

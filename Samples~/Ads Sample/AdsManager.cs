@@ -12,10 +12,10 @@ public class AdsManager : BaseAdsManager<AdsManager>
         return true;
     }
 
-    protected override bool CanShowBannerCollapsibleAdInternal(string adPlacement)
-    {
-        return true;
-    }
+    // protected override bool CanShowBannerCollapsibleAdInternal(string adPlacement)
+    // {
+    //     return true;
+    // }
 
     protected override bool CanShowInterstitialAdInternal(string adPlacement)
     {
@@ -24,7 +24,8 @@ public class AdsManager : BaseAdsManager<AdsManager>
 
     protected override float GetInterstitialAdCoolDown(string adPlacement)
     {
-        return 10;
+        return 0;
+        // return adsConfig.InterstitialAdCoolDown;
     }
 
     protected override bool CanShowRewardedAdInternal(string adPlacement)
@@ -105,8 +106,8 @@ public class AdsManager : BaseAdsManager<AdsManager>
             isReceived => { Debug.Log($"datdb - isReceived {isReceived}"); }, "");
     }
 
-    public void ShowBannerCollapsible()
-    {
-        ShowBannerCollapsibleAd("");
-    }
+    // public void ShowBannerCollapsible()
+    // {
+    //     ShowBannerCollapsibleAd("");
+    // }
 }

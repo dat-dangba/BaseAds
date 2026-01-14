@@ -42,7 +42,7 @@ public class AdsConfig : BuildReflectionConfigBase
     [BuildKey("rewarded_ad_unit_id_admob")]
     public string RewardedAdUnitIdAdmob;
 
-    [Space(10)] [Header("Config show")] [BuildKey("app_open_ad_enabled")]
+    [Space(10)] [Header("Config")] [BuildKey("app_open_ad_enabled")]
     public bool AppOpenAdEnabled;
 
     [BuildKey("banner_ad_enabled")] public bool BannerAdEnabled;
@@ -59,6 +59,9 @@ public class AdsConfig : BuildReflectionConfigBase
     [BuildKey("banner_ad_network")] public AdNetwork BannerAdNetWork = AdNetwork.Applovin;
     [BuildKey("interstitial_ad_network")] public AdNetwork InterstitialAdNetWork = AdNetwork.Applovin;
     [BuildKey("rewarded_ad_network")] public AdNetwork RewardedAdNetWork = AdNetwork.Applovin;
+
+    [Space(10)] [BuildKey("interstitial_ad_cool_down")]
+    public float InterstitialAdCoolDown = 60;
 
     public string GetUnitId(AdFormat format, AdNetwork network)
     {
