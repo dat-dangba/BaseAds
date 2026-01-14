@@ -17,8 +17,6 @@ namespace DBD.Ads.Editor
             if (buildTarget != BuildTarget.Android)
                 return;
 
-            Debug.Log($"datdb - pathToBuiltProject {pathToBuiltProject}");
-
             string manifestPath = Path.Combine(pathToBuiltProject, "launcher/src/main/AndroidManifest.xml");
 
             var xml = new XmlDocument();

@@ -171,7 +171,7 @@ namespace DBD.Ads
 
             UpdateAdsConfig(adsConfig);
 
-            Debug.Log($"datdb - consent.CanRequestAds {consent.CanRequestAds}");
+            Debug.LogWarning($"Ads - Init - isRemoveAds: {isRemoveAds}");
             if (consent.CanRequestAds)
             {
                 InitAds();
@@ -186,7 +186,7 @@ namespace DBD.Ads
 
         protected virtual void OnRequestConsentCompleted(bool isSuccess)
         {
-            Debug.Log($"datdb - OnRequestConsentCompleted {isSuccess}");
+            Debug.LogWarning($"Ads - OnRequestConsentCompleted {isSuccess}");
             if (isSuccess)
             {
                 InitAds();
