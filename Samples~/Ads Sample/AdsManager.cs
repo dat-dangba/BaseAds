@@ -1,3 +1,4 @@
+using DBD.Ads;
 using UnityEngine;
 
 public class AdsManager : BaseAdsManager<AdsManager>

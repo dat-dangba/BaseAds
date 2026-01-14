@@ -2,21 +2,24 @@ using UnityEngine;
 using System.Reflection;
 using System.Linq;
 
-public abstract class BuildReflectionConfigBase : ScriptableObject
+namespace DBD.Ads
 {
-    public FieldInfo[] GetBuildFields()
+    public abstract class BuildReflectionConfigBase : ScriptableObject
     {
-        return GetType()
-            .GetFields(BindingFlags.Public | BindingFlags.Instance)
-            .Where(f => f.IsDefined(typeof(BuildKeyAttribute), false))
-            .ToArray();
-    }
+        public FieldInfo[] GetBuildFields()
+        {
+            return GetType()
+                .GetFields(BindingFlags.Public | BindingFlags.Instance)
+                .Where(f => f.IsDefined(typeof(BuildKeyAttribute), false))
+                .ToArray();
+        }
 
-    public string GetKey(FieldInfo field)
-    {
-        var attr = field.GetCustomAttribute<BuildKeyAttribute>();
-        return string.IsNullOrEmpty(attr.customKey)
-            ? field.Name
-            : attr.customKey;
+        public string GetKey(FieldInfo field)
+        {
+            var attr = field.GetCustomAttribute<BuildKeyAttribute>();
+            return string.IsNullOrEmpty(attr.customKey)
+                ? field.Name
+                : attr.customKey;
+        }
     }
 }

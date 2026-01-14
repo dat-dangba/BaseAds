@@ -1,95 +1,98 @@
 using System;
 using GoogleMobileAds.Api;
 
-public class InterstitialAdAdmob : BaseAdmob
+namespace DBD.Ads
 {
-    private InterstitialAd interstitialAd;
-
-    private Action<bool> OnAdClose;
-
-    public void Show(Action<bool> OnAdClose, string adPlacement)
+    public class InterstitialAdAdmob : BaseAdmob
     {
-        this.OnAdClose = OnAdClose;
-        this.adPlacement = adPlacement;
-        if (IsAdReady())
-        {
-            AdAction.OnAppOpenAdResumeGameCanShowChanged?.Invoke(false);
-            interstitialAd.Show();
-        }
-        else
-        {
-            this.OnAdClose?.Invoke(false);
-        }
-    }
+        private InterstitialAd interstitialAd;
 
-    public bool IsAdReady()
-    {
-        return interstitialAd != null && interstitialAd.CanShowAd();
-    }
+        private Action<bool> OnAdClose;
 
-    protected override void LoadAd()
-    {
-        if (isLoading)
+        public void Show(Action<bool> OnAdClose, string adPlacement)
         {
-            return;
+            this.OnAdClose = OnAdClose;
+            this.adPlacement = adPlacement;
+            if (IsAdReady())
+            {
+                AdAction.OnAppOpenAdResumeGameCanShowChanged?.Invoke(false);
+                interstitialAd.Show();
+            }
+            else
+            {
+                this.OnAdClose?.Invoke(false);
+            }
         }
 
-        if (interstitialAd != null)
+        public bool IsAdReady()
         {
-            if (interstitialAd.CanShowAd())
+            return interstitialAd != null && interstitialAd.CanShowAd();
+        }
+
+        protected override void LoadAd()
+        {
+            if (isLoading)
             {
                 return;
             }
 
-            interstitialAd.Destroy();
-            interstitialAd = null;
-        }
-
-        var adRequest = new AdRequest();
-
-        isLoading = true;
-        InterstitialAd.Load(adUnitId, adRequest, (ad, error) =>
-        {
-            isLoading = false;
-            if (error != null || ad == null)
+            if (interstitialAd != null)
             {
-                OnAdLoadFailedEvent(error);
-                ReloadAd();
-                return;
+                if (interstitialAd.CanShowAd())
+                {
+                    return;
+                }
+
+                interstitialAd.Destroy();
+                interstitialAd = null;
             }
 
-            interstitialAd = ad;
-            OnAdLoadedEvent(interstitialAd.GetResponseInfo());
-            SetAdEvent(interstitialAd);
-        });
-    }
+            var adRequest = new AdRequest();
 
-    private void SetAdEvent(InterstitialAd interstitialAd)
-    {
-        interstitialAd.OnAdPaid += OnAdPaidEvent;
-        interstitialAd.OnAdImpressionRecorded += OnAdImpressionRecordedEvent;
-        interstitialAd.OnAdClicked += OnAdClickedEvent;
-        interstitialAd.OnAdFullScreenContentOpened += OnAdFullScreenContentOpenedEvent;
-        interstitialAd.OnAdFullScreenContentClosed += OnAdFullScreenContentClosedEvent;
-        interstitialAd.OnAdFullScreenContentFailed += OnAdFullScreenContentFailedEvent;
-    }
+            isLoading = true;
+            InterstitialAd.Load(adUnitId, adRequest, (ad, error) =>
+            {
+                isLoading = false;
+                if (error != null || ad == null)
+                {
+                    OnAdLoadFailedEvent(error);
+                    ReloadAd();
+                    return;
+                }
 
-    protected override void OnAdFullScreenContentClosedEvent()
-    {
-        base.OnAdFullScreenContentClosedEvent();
-        OnAdClose?.Invoke(true);
-        ReloadAd();
-    }
+                interstitialAd = ad;
+                OnAdLoadedEvent(interstitialAd.GetResponseInfo());
+                SetAdEvent(interstitialAd);
+            });
+        }
 
-    protected override void OnAdFullScreenContentFailedEvent(AdError adError)
-    {
-        base.OnAdFullScreenContentFailedEvent(adError);
-        OnAdClose?.Invoke(false);
-        ReloadAd();
-    }
+        private void SetAdEvent(InterstitialAd interstitialAd)
+        {
+            interstitialAd.OnAdPaid += OnAdPaidEvent;
+            interstitialAd.OnAdImpressionRecorded += OnAdImpressionRecordedEvent;
+            interstitialAd.OnAdClicked += OnAdClickedEvent;
+            interstitialAd.OnAdFullScreenContentOpened += OnAdFullScreenContentOpenedEvent;
+            interstitialAd.OnAdFullScreenContentClosed += OnAdFullScreenContentClosedEvent;
+            interstitialAd.OnAdFullScreenContentFailed += OnAdFullScreenContentFailedEvent;
+        }
 
-    protected override AdFormat GetAdFormat()
-    {
-        return AdFormat.INTERSTITIAL;
+        protected override void OnAdFullScreenContentClosedEvent()
+        {
+            base.OnAdFullScreenContentClosedEvent();
+            OnAdClose?.Invoke(true);
+            ReloadAd();
+        }
+
+        protected override void OnAdFullScreenContentFailedEvent(AdError adError)
+        {
+            base.OnAdFullScreenContentFailedEvent(adError);
+            OnAdClose?.Invoke(false);
+            ReloadAd();
+        }
+
+        protected override AdFormat GetAdFormat()
+        {
+            return AdFormat.INTERSTITIAL;
+        }
     }
 }

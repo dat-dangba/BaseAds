@@ -1,7 +1,10 @@
-public class AdPaidEventData : AdEventData
+namespace DBD.Ads
 {
-    public double Revenue;
-    public string Currency;
-    public string RevenueNetwork;
-    public string AdRevenueUnit;
+    public class AdPaidEventData : AdEventData
+    {
+        public double Revenue;
+        public string Currency;
+        public string RevenueNetwork;
+        public string AdRevenueUnit;
+    }
 }

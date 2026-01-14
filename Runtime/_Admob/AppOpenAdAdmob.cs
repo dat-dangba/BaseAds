@@ -1,101 +1,103 @@
 using System;
 using GoogleMobileAds.Api;
-using UnityEngine;
 
-public class AppOpenAdAdmob : BaseAdmob
+namespace DBD.Ads
 {
-    public static event Action<bool> OnAdLoaded;
-    private Action<bool> OnAdClose;
-    private bool isShowResumeGame;
-    private AppOpenAd appOpenAd;
-
-    public void Show(Action<bool> OnAdClose, string adPlacement)
+    public class AppOpenAdAdmob : BaseAdmob
     {
-        this.adPlacement = adPlacement;
-        this.OnAdClose = OnAdClose;
-        if (appOpenAd != null && appOpenAd.CanShowAd())
-        {
-            appOpenAd.Show();
-        }
-        else
-        {
-            OnAdClose?.Invoke(false);
-        }
-    }
+        public static event Action<bool> OnAdLoaded;
+        private Action<bool> OnAdClose;
+        private bool isShowResumeGame;
+        private AppOpenAd appOpenAd;
 
-    public void SetShowResumeGame(bool b)
-    {
-        isShowResumeGame = b;
-    }
-
-    protected override void LoadAd()
-    {
-        if (isLoading)
+        public void Show(Action<bool> OnAdClose, string adPlacement)
         {
-            return;
+            this.adPlacement = adPlacement;
+            this.OnAdClose = OnAdClose;
+            if (appOpenAd != null && appOpenAd.CanShowAd())
+            {
+                appOpenAd.Show();
+            }
+            else
+            {
+                OnAdClose?.Invoke(false);
+            }
         }
 
-        if (appOpenAd != null)
+        public void SetShowResumeGame(bool b)
         {
-            if (appOpenAd.CanShowAd())
+            isShowResumeGame = b;
+        }
+
+        protected override void LoadAd()
+        {
+            if (isLoading)
             {
                 return;
             }
 
-            appOpenAd.Destroy();
-            appOpenAd = null;
+            if (appOpenAd != null)
+            {
+                if (appOpenAd.CanShowAd())
+                {
+                    return;
+                }
+
+                appOpenAd.Destroy();
+                appOpenAd = null;
+            }
+
+            var adRequest = new AdRequest();
+            isLoading = true;
+            AppOpenAd.Load(adUnitId, adRequest, (ad, error) =>
+            {
+                isLoading = false;
+                if (error != null || ad == null)
+                {
+                    ReloadAd();
+                    return;
+                }
+
+                appOpenAd = ad;
+                OnAdLoadedEvent(ad.GetResponseInfo());
+                SetAdEvent(ad);
+                OnAdLoaded?.Invoke(true);
+            });
         }
 
-        var adRequest = new AdRequest();
-        isLoading = true;
-        AppOpenAd.Load(adUnitId, adRequest, (ad, error) =>
+        private void SetAdEvent(AppOpenAd ad)
         {
-            isLoading = false;
-            if (error != null || ad == null)
+            ad.OnAdPaid += OnAdPaidEvent;
+            ad.OnAdImpressionRecorded += OnAdImpressionRecordedEvent;
+            ad.OnAdClicked += OnAdClickedEvent;
+            ad.OnAdFullScreenContentOpened += OnAdFullScreenContentOpenedEvent;
+            ad.OnAdFullScreenContentClosed += OnAdFullScreenContentClosedEvent;
+            ad.OnAdFullScreenContentFailed += OnAdFullScreenContentFailedEvent;
+        }
+
+        protected override void OnAdFullScreenContentClosedEvent()
+        {
+            base.OnAdFullScreenContentClosedEvent();
+            OnAdClose?.Invoke(true);
+            if (isShowResumeGame)
             {
                 ReloadAd();
-                return;
             }
-
-            appOpenAd = ad;
-            OnAdLoadedEvent(ad.GetResponseInfo());
-            SetAdEvent(ad);
-            OnAdLoaded?.Invoke(true);
-        });
-    }
-
-    private void SetAdEvent(AppOpenAd ad)
-    {
-        ad.OnAdPaid += OnAdPaidEvent;
-        ad.OnAdImpressionRecorded += OnAdImpressionRecordedEvent;
-        ad.OnAdClicked += OnAdClickedEvent;
-        ad.OnAdFullScreenContentOpened += OnAdFullScreenContentOpenedEvent;
-        ad.OnAdFullScreenContentClosed += OnAdFullScreenContentClosedEvent;
-        ad.OnAdFullScreenContentFailed += OnAdFullScreenContentFailedEvent;
-    }
-
-    protected override void OnAdFullScreenContentClosedEvent()
-    {
-        base.OnAdFullScreenContentClosedEvent();
-        OnAdClose?.Invoke(true);
-        if (isShowResumeGame)
-        {
-            ReloadAd();
         }
-    }
 
-    protected override void OnAdFullScreenContentFailedEvent(AdError adError)
-    {
-        base.OnAdFullScreenContentFailedEvent(adError);
-        OnAdClose?.Invoke(false);
-        if (isShowResumeGame)
+        protected override void OnAdFullScreenContentFailedEvent(AdError adError)
         {
-            ReloadAd();
+            base.OnAdFullScreenContentFailedEvent(adError);
+            OnAdClose?.Invoke(false);
+            if (isShowResumeGame)
+            {
+                ReloadAd();
+            }
         }
-    }
 
-    protected override AdFormat GetAdFormat()
-    {
-        return AdFormat.APP_OPEN;
+        protected override AdFormat GetAdFormat()
+        {
+            return AdFormat.APP_OPEN;
+        }
     }
 }

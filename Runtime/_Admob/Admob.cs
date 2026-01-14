@@ -1,82 +1,89 @@
 using GoogleMobileAds.Api;
 using UnityEngine;
 
-[RequireComponent(typeof(AppOpenAdAdmob))]
-[RequireComponent(typeof(BannerAdAdmob))]
-// [RequireComponent(typeof(BannerCollapsibleAdAdmob))]
-[RequireComponent(typeof(InterstitialAdAdmob))]
-[RequireComponent(typeof(RewardedAdAdmob))]
-public class Admob : MonoBehaviour
+namespace DBD.Ads
 {
-    private AdsConfig adsConfig;
-
-    [SerializeField] private AppOpenAdAdmob appOpenAd;
-    [SerializeField] private BannerAdAdmob bannerAd;
-    // [SerializeField] private BannerCollapsibleAdAdmob bannerCollapsibleAd;
-    [SerializeField] private InterstitialAdAdmob interstitialAd;
-    [SerializeField] private RewardedAdAdmob rewardedAd;
-
-    public AppOpenAdAdmob AppOpenAd => appOpenAd;
-    public BannerAdAdmob BannerAd => bannerAd;
-    // public BannerCollapsibleAdAdmob BannerCollapsibleAd => bannerCollapsibleAd;
-    public InterstitialAdAdmob InterstitialAd => interstitialAd;
-    public RewardedAdAdmob RewardedAd => rewardedAd;
-
-    private void Reset()
+    [RequireComponent(typeof(AppOpenAdAdmob))]
+    [RequireComponent(typeof(BannerAdAdmob))]
+// [RequireComponent(typeof(BannerCollapsibleAdAdmob))]
+    [RequireComponent(typeof(InterstitialAdAdmob))]
+    [RequireComponent(typeof(RewardedAdAdmob))]
+    public class Admob : MonoBehaviour
     {
-        appOpenAd = GetComponent<AppOpenAdAdmob>();
-        bannerAd = GetComponent<BannerAdAdmob>();
-        // bannerCollapsibleAd = GetComponent<BannerCollapsibleAdAdmob>();
-        interstitialAd = GetComponent<InterstitialAdAdmob>();
-        rewardedAd = GetComponent<RewardedAdAdmob>();
-    }
+        private AdsConfig adsConfig;
 
-    public void Init(AdsConfig adsConfig)
-    {
-        this.adsConfig = adsConfig;
+        [SerializeField] private AppOpenAdAdmob appOpenAd;
 
-        MobileAds.RaiseAdEventsOnUnityMainThread = true;
-        MobileAds.SetiOSAppPauseOnBackground(true);
-        MobileAds.Initialize(initStatus => { LoadAds(); });
-    }
+        [SerializeField] private BannerAdAdmob bannerAd;
 
-    private void LoadAds()
-    {
-        Debug.LogWarning($"Ads - Admob - LoadAds");
-        LoadAppOpenAd();
-        LoadBannerAd();
-        // LoadBannerCollapsibleAd();
-        LoadInterstitialAd();
-        LoadRewardedAd();
-    }
+        // [SerializeField] private BannerCollapsibleAdAdmob bannerCollapsibleAd;
+        [SerializeField] private InterstitialAdAdmob interstitialAd;
+        [SerializeField] private RewardedAdAdmob rewardedAd;
 
-    private void LoadRewardedAd()
-    {
-        if (!adsConfig.RewardedAdEnabled) return;
-        rewardedAd.LoadAd(adsConfig.RewardedAdUnitIdAdmob);
-    }
+        public AppOpenAdAdmob AppOpenAd => appOpenAd;
 
-    private void LoadInterstitialAd()
-    {
-        if (!adsConfig.InterstitialAdEnabled) return;
-        interstitialAd.LoadAd(adsConfig.InterstitialAdUnitIdAdmob);
-    }
+        public BannerAdAdmob BannerAd => bannerAd;
 
-    // private void LoadBannerCollapsibleAd()
-    // {
-    //     if (!adsConfig.BannerCollapsibleAdEnabled) return;
-    //     bannerCollapsibleAd.LoadAd(adsConfig.BannerCollapsibleAdUnitIdAdmob);
-    // }
+        // public BannerCollapsibleAdAdmob BannerCollapsibleAd => bannerCollapsibleAd;
+        public InterstitialAdAdmob InterstitialAd => interstitialAd;
+        public RewardedAdAdmob RewardedAd => rewardedAd;
 
-    private void LoadBannerAd()
-    {
-        if (!adsConfig.BannerAdEnabled) return;
-        bannerAd.LoadAd(adsConfig.BannerAdUnitIdAdmob);
-    }
+        private void Reset()
+        {
+            appOpenAd = GetComponent<AppOpenAdAdmob>();
+            bannerAd = GetComponent<BannerAdAdmob>();
+            // bannerCollapsibleAd = GetComponent<BannerCollapsibleAdAdmob>();
+            interstitialAd = GetComponent<InterstitialAdAdmob>();
+            rewardedAd = GetComponent<RewardedAdAdmob>();
+        }
 
-    private void LoadAppOpenAd()
-    {
-        if (!adsConfig.AppOpenAdEnabled) return;
-        appOpenAd.LoadAd(adsConfig.AppOpenAdUnitIdAdmob);
+        public void Init(AdsConfig adsConfig)
+        {
+            this.adsConfig = adsConfig;
+
+            MobileAds.RaiseAdEventsOnUnityMainThread = true;
+            MobileAds.SetiOSAppPauseOnBackground(true);
+            MobileAds.Initialize(initStatus => { LoadAds(); });
+        }
+
+        private void LoadAds()
+        {
+            Debug.LogWarning($"Ads - Admob - LoadAds");
+            LoadAppOpenAd();
+            LoadBannerAd();
+            // LoadBannerCollapsibleAd();
+            LoadInterstitialAd();
+            LoadRewardedAd();
+        }
+
+        private void LoadRewardedAd()
+        {
+            if (!adsConfig.RewardedAdEnabled) return;
+            rewardedAd.LoadAd(adsConfig.RewardedAdUnitIdAdmob);
+        }
+
+        private void LoadInterstitialAd()
+        {
+            if (!adsConfig.InterstitialAdEnabled) return;
+            interstitialAd.LoadAd(adsConfig.InterstitialAdUnitIdAdmob);
+        }
+
+        // private void LoadBannerCollapsibleAd()
+        // {
+        //     if (!adsConfig.BannerCollapsibleAdEnabled) return;
+        //     bannerCollapsibleAd.LoadAd(adsConfig.BannerCollapsibleAdUnitIdAdmob);
+        // }
+
+        private void LoadBannerAd()
+        {
+            if (!adsConfig.BannerAdEnabled) return;
+            bannerAd.LoadAd(adsConfig.BannerAdUnitIdAdmob);
+        }
+
+        private void LoadAppOpenAd()
+        {
+            if (!adsConfig.AppOpenAdEnabled) return;
+            appOpenAd.LoadAd(adsConfig.AppOpenAdUnitIdAdmob);
+        }
     }
 }

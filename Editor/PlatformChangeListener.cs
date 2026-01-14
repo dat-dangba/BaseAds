@@ -2,46 +2,49 @@
 using UnityEditor;
 using UnityEditor.Build;
 
-public class PlatformChangeListener : IActiveBuildTargetChanged
+namespace DBD.Ads.Editor
 {
-    public int callbackOrder { get; }
-
-    public void OnActiveBuildTargetChanged(BuildTarget previousTarget, BuildTarget newTarget)
+    public class PlatformChangeListener : IActiveBuildTargetChanged
     {
-        Config(newTarget);
-    }
+        public int callbackOrder { get; }
 
-    private void Config(BuildTarget newTarget)
-    {
-        AdsConfig config = LoadAdsConfig();
-        if (config == null) return;
-
-        switch (newTarget)
+        public void OnActiveBuildTargetChanged(BuildTarget previousTarget, BuildTarget newTarget)
         {
-            case BuildTarget.Android:
-                config.ApplyAndroidConfig();
-                break;
-
-            case BuildTarget.iOS:
-                config.ApplyIOSConfig();
-                break;
+            Config(newTarget);
         }
 
-        EditorUtility.SetDirty(config);
-        AssetDatabase.SaveAssets();
-    }
-
-    private AdsConfig LoadAdsConfig()
-    {
-        string[] guids = AssetDatabase.FindAssets("t:AdsConfig");
-
-        if (guids.Length == 0)
+        private void Config(BuildTarget newTarget)
         {
-            return null;
+            AdsConfig config = LoadAdsConfig();
+            if (config == null) return;
+
+            switch (newTarget)
+            {
+                case BuildTarget.Android:
+                    config.ApplyAndroidConfig();
+                    break;
+
+                case BuildTarget.iOS:
+                    config.ApplyIOSConfig();
+                    break;
+            }
+
+            EditorUtility.SetDirty(config);
+            AssetDatabase.SaveAssets();
         }
 
-        string path = AssetDatabase.GUIDToAssetPath(guids[0]);
-        return AssetDatabase.LoadAssetAtPath<AdsConfig>(path);
+        private AdsConfig LoadAdsConfig()
+        {
+            string[] guids = AssetDatabase.FindAssets("t:AdsConfig");
+
+            if (guids.Length == 0)
+            {
+                return null;
+            }
+
+            string path = AssetDatabase.GUIDToAssetPath(guids[0]);
+            return AssetDatabase.LoadAssetAtPath<AdsConfig>(path);
+        }
     }
 }
 #endif

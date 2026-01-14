@@ -1,76 +1,79 @@
 using UnityEngine;
 
-[RequireComponent(typeof(AppOpenAdApplovin))]
-[RequireComponent(typeof(BannerAdApplovin))]
-[RequireComponent(typeof(InterstitialAdApplovin))]
-[RequireComponent(typeof(RewardedAdApplovin))]
-public class Applovin : MonoBehaviour
+namespace DBD.Ads
 {
-    private AdsConfig adsConfig;
-
-    [SerializeField] private AppOpenAdApplovin appOpenAd;
-    [SerializeField] private BannerAdApplovin bannerAd;
-    [SerializeField] private InterstitialAdApplovin interstitialAd;
-    [SerializeField] private RewardedAdApplovin rewardedAdAd;
-
-    public AppOpenAdApplovin AppOpenAd => appOpenAd;
-    public BannerAdApplovin BannerAd => bannerAd;
-    public InterstitialAdApplovin InterstitialAd => interstitialAd;
-    public RewardedAdApplovin RewardedAdAd => rewardedAdAd;
-
-    private void Reset()
+    [RequireComponent(typeof(AppOpenAdApplovin))]
+    [RequireComponent(typeof(BannerAdApplovin))]
+    [RequireComponent(typeof(InterstitialAdApplovin))]
+    [RequireComponent(typeof(RewardedAdApplovin))]
+    public class Applovin : MonoBehaviour
     {
-        appOpenAd = GetComponent<AppOpenAdApplovin>();
-        bannerAd = GetComponent<BannerAdApplovin>();
-        interstitialAd = GetComponent<InterstitialAdApplovin>();
-        interstitialAd = GetComponent<InterstitialAdApplovin>();
-        rewardedAdAd = GetComponent<RewardedAdApplovin>();
-    }
+        private AdsConfig adsConfig;
 
-    public void Init(AdsConfig adsConfig)
-    {
-        if (MaxSdk.IsInitialized()) return;
+        [SerializeField] private AppOpenAdApplovin appOpenAd;
+        [SerializeField] private BannerAdApplovin bannerAd;
+        [SerializeField] private InterstitialAdApplovin interstitialAd;
+        [SerializeField] private RewardedAdApplovin rewardedAdAd;
 
-        this.adsConfig = adsConfig;
+        public AppOpenAdApplovin AppOpenAd => appOpenAd;
+        public BannerAdApplovin BannerAd => bannerAd;
+        public InterstitialAdApplovin InterstitialAd => interstitialAd;
+        public RewardedAdApplovin RewardedAdAd => rewardedAdAd;
 
-        MaxSdkCallbacks.OnSdkInitializedEvent += _ => { LoadAds(); };
-        string[] deviceTests = new string[]
+        private void Reset()
         {
-        };
-        MaxSdk.SetTestDeviceAdvertisingIdentifiers(deviceTests);
-        MaxSdk.InitializeSdk();
-    }
+            appOpenAd = GetComponent<AppOpenAdApplovin>();
+            bannerAd = GetComponent<BannerAdApplovin>();
+            interstitialAd = GetComponent<InterstitialAdApplovin>();
+            interstitialAd = GetComponent<InterstitialAdApplovin>();
+            rewardedAdAd = GetComponent<RewardedAdApplovin>();
+        }
 
-    private void LoadAds()
-    {
-        Debug.LogWarning($"Ads - Applovin - LoadAds");
-        LoadAppOpenAd();
-        LoadBannerAd();
-        LoadInterstitialAd();
-        LoadRewardedAd();
-    }
+        public void Init(AdsConfig adsConfig)
+        {
+            if (MaxSdk.IsInitialized()) return;
 
-    private void LoadRewardedAd()
-    {
-        if (!adsConfig.RewardedAdEnabled) return;
-        rewardedAdAd.LoadAd(adsConfig.RewardedAdUnitIdApplovin);
-    }
+            this.adsConfig = adsConfig;
 
-    private void LoadInterstitialAd()
-    {
-        if (!adsConfig.InterstitialAdEnabled) return;
-        interstitialAd.LoadAd(adsConfig.InterstitialAdUnitIdApplovin);
-    }
+            MaxSdkCallbacks.OnSdkInitializedEvent += _ => { LoadAds(); };
+            string[] deviceTests = new string[]
+            {
+            };
+            MaxSdk.SetTestDeviceAdvertisingIdentifiers(deviceTests);
+            MaxSdk.InitializeSdk();
+        }
 
-    private void LoadBannerAd()
-    {
-        if (!adsConfig.BannerAdEnabled) return;
-        bannerAd.LoadAd(adsConfig.BannerAdUnitIdApplovin);
-    }
+        private void LoadAds()
+        {
+            Debug.LogWarning($"Ads - Applovin - LoadAds");
+            LoadAppOpenAd();
+            LoadBannerAd();
+            LoadInterstitialAd();
+            LoadRewardedAd();
+        }
 
-    private void LoadAppOpenAd()
-    {
-        if (!adsConfig.AppOpenAdEnabled) return;
-        appOpenAd.LoadAd(adsConfig.AppOpenAdUnitIdApplovin);
+        private void LoadRewardedAd()
+        {
+            if (!adsConfig.RewardedAdEnabled) return;
+            rewardedAdAd.LoadAd(adsConfig.RewardedAdUnitIdApplovin);
+        }
+
+        private void LoadInterstitialAd()
+        {
+            if (!adsConfig.InterstitialAdEnabled) return;
+            interstitialAd.LoadAd(adsConfig.InterstitialAdUnitIdApplovin);
+        }
+
+        private void LoadBannerAd()
+        {
+            if (!adsConfig.BannerAdEnabled) return;
+            bannerAd.LoadAd(adsConfig.BannerAdUnitIdApplovin);
+        }
+
+        private void LoadAppOpenAd()
+        {
+            if (!adsConfig.AppOpenAdEnabled) return;
+            appOpenAd.LoadAd(adsConfig.AppOpenAdUnitIdApplovin);
+        }
     }
 }

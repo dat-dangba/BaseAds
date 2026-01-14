@@ -1,12 +1,15 @@
 using System;
 
-[AttributeUsage(AttributeTargets.Field)]
-public class BuildKeyAttribute : Attribute
+namespace DBD.Ads
 {
-    public readonly string customKey;
-
-    public BuildKeyAttribute(string customKey = null)
+    [AttributeUsage(AttributeTargets.Field)]
+    public class BuildKeyAttribute : Attribute
     {
-        this.customKey = customKey;
+        public readonly string customKey;
+
+        public BuildKeyAttribute(string customKey = null)
+        {
+            this.customKey = customKey;
+        }
     }
 }

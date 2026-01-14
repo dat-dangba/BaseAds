@@ -1,7 +1,7 @@
 {
   "name": "com.datdb.baseads",
-  "displayName": "DBD-BaseAds",
-  "description": "Base Ads",
+  "displayName": "DBD-Ads",
+  "description": "Ads",
   "author": "datdb",
   "version": "1.0.0",
   "website": "https://github.com/dat-dangba/BaseAds",

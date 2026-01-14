@@ -1,6 +1,9 @@
-public class AdEventData
+namespace DBD.Ads
 {
-    public AdNetwork AdNetwork;
-    public AdFormat AdFormat;
-    public string AdPlacement;
+    public class AdEventData
+    {
+        public AdNetwork AdNetwork;
+        public AdFormat AdFormat;
+        public string AdPlacement;
+    }
 }

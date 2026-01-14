@@ -5,73 +5,76 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
-public static class AndroidManifestMerger
+namespace DBD.Ads.Editor
 {
-    private const string ANDROID_NS = "http://schemas.android.com/apk/res/android";
-
-    [PostProcessBuild]
-    public static void OnPostprocessBuild(BuildTarget buildTarget, string pathToBuiltProject)
+    public static class AndroidManifestMerger
     {
-        if (buildTarget != BuildTarget.Android)
-            return;
+        private const string ANDROID_NS = "http://schemas.android.com/apk/res/android";
 
-        Debug.Log($"datdb - pathToBuiltProject {pathToBuiltProject}");
-
-        string manifestPath = Path.Combine(pathToBuiltProject, "launcher/src/main/AndroidManifest.xml");
-
-        var xml = new XmlDocument();
-        xml.Load(manifestPath);
-
-        var configs = Resources.LoadAll<BuildReflectionConfigBase>("");
-        foreach (var cfg in configs)
+        [PostProcessBuild]
+        public static void OnPostprocessBuild(BuildTarget buildTarget, string pathToBuiltProject)
         {
-            ApplyAndroid(xml, cfg);
-        }
+            if (buildTarget != BuildTarget.Android)
+                return;
 
-        xml.Save(manifestPath);
-    }
+            Debug.Log($"datdb - pathToBuiltProject {pathToBuiltProject}");
 
-    private static void ApplyAndroid(XmlDocument xml, BuildReflectionConfigBase config)
-    {
-        foreach (var field in config.GetBuildFields())
-        {
-            string key = config.GetKey(field);
-            string value = ConvertValue(field.GetValue(config));
+            string manifestPath = Path.Combine(pathToBuiltProject, "launcher/src/main/AndroidManifest.xml");
 
-            if (string.IsNullOrEmpty(value)) continue;
+            var xml = new XmlDocument();
+            xml.Load(manifestPath);
 
-
-            var manifest = xml.SelectSingleNode("/manifest");
-            var application = manifest.SelectSingleNode("application");
-
-            foreach (XmlNode node in application.SelectNodes("meta-data"))
+            var configs = Resources.LoadAll<BuildReflectionConfigBase>("");
+            foreach (var cfg in configs)
             {
-                if (node.Attributes["android:name"]?.Value == key)
-                {
-                    node.Attributes["android:value"].Value = value;
-                    return;
-                }
+                ApplyAndroid(xml, cfg);
             }
 
-            var meta = xml.CreateElement("meta-data");
-            meta.SetAttribute("name", ANDROID_NS, key);
-            meta.SetAttribute("value", ANDROID_NS, value);
-            application.AppendChild(meta);
+            xml.Save(manifestPath);
         }
-    }
 
-    private static string ConvertValue(object value)
-    {
-        if (value == null) return null;
-
-        return value switch
+        private static void ApplyAndroid(XmlDocument xml, BuildReflectionConfigBase config)
         {
-            bool b => b ? "true" : "false",
-            int i => i.ToString(),
-            float f => f.ToString(System.Globalization.CultureInfo.InvariantCulture),
-            string s => s,
-            _ => value.ToString()
-        };
+            foreach (var field in config.GetBuildFields())
+            {
+                string key = config.GetKey(field);
+                string value = ConvertValue(field.GetValue(config));
+
+                if (string.IsNullOrEmpty(value)) continue;
+
+
+                var manifest = xml.SelectSingleNode("/manifest");
+                var application = manifest.SelectSingleNode("application");
+
+                foreach (XmlNode node in application.SelectNodes("meta-data"))
+                {
+                    if (node.Attributes["android:name"]?.Value == key)
+                    {
+                        node.Attributes["android:value"].Value = value;
+                        return;
+                    }
+                }
+
+                var meta = xml.CreateElement("meta-data");
+                meta.SetAttribute("name", ANDROID_NS, key);
+                meta.SetAttribute("value", ANDROID_NS, value);
+                application.AppendChild(meta);
+            }
+        }
+
+        private static string ConvertValue(object value)
+        {
+            if (value == null) return null;
+
+            return value switch
+            {
+                bool b => b ? "true" : "false",
+                int i => i.ToString(),
+                float f => f.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                string s => s,
+                _ => value.ToString()
+            };
+        }
     }
 }
 #endif

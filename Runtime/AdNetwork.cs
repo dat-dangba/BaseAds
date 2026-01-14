@@ -1,5 +1,8 @@
-public enum AdNetwork
+namespace DBD.Ads
 {
-    Admob,
-    Applovin
+    public enum AdNetwork
+    {
+        Admob,
+        Applovin
+    }
 }

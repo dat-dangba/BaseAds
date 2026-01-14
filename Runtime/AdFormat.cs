@@ -1,11 +1,14 @@
-public enum AdFormat
+namespace DBD.Ads
 {
-    BANNER,
-    BANNER_COLLAPSIBLE,
-    INTERSTITIAL,
-    REWARDED,
-    REWARDED_INTERSTITIAL,
-    NATIVE,
-    APP_OPEN,
-    MREC
+    public enum AdFormat
+    {
+        BANNER,
+        BANNER_COLLAPSIBLE,
+        INTERSTITIAL,
+        REWARDED,
+        REWARDED_INTERSTITIAL,
+        NATIVE,
+        APP_OPEN,
+        MREC
+    }
 }
