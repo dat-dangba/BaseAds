@@ -165,6 +165,8 @@ public abstract class BaseAdsManager<INSTANCE> : MonoBehaviour
 
         IsRemoveAds = isRemoveAds;
 
+        IsInit = true;
+
         UpdateAdsConfig(adsConfig);
 
         Debug.Log($"datdb - consent.CanRequestAds {consent.CanRequestAds}");
