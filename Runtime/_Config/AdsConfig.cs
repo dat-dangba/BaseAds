@@ -11,6 +11,11 @@ public class AdsConfig : BuildReflectionConfigBase
 #endif
     }
 
+    [BuildKey] [HideInInspector] public bool google_analytics_default_allow_analytics_storage = true;
+    [BuildKey] [HideInInspector] public bool google_analytics_default_allow_ad_storage = true;
+    [BuildKey] [HideInInspector] public bool google_analytics_default_allow_ad_user_data = true;
+    [BuildKey] [HideInInspector] public bool google_analytics_default_allow_ad_personalization_signals = true;
+
     [Header("Applovin")] [BuildKey("app_open_ad_unit_id_applovin")]
     public string AppOpenAdUnitIdApplovin;
 
@@ -76,6 +81,11 @@ public class AdsConfig : BuildReflectionConfigBase
 
     public void ApplyAndroidConfig()
     {
+        google_analytics_default_allow_analytics_storage = true;
+        google_analytics_default_allow_ad_storage = true;
+        google_analytics_default_allow_ad_user_data = true;
+        google_analytics_default_allow_ad_personalization_signals = true;
+
         AppOpenAdUnitIdApplovin = "413984c574766b2e";
         BannerAdUnitIdApplovin = "c1db37c89406332c";
         InterstitialAdUnitIdApplovin = "c9638fd386ac26f8";
@@ -90,6 +100,11 @@ public class AdsConfig : BuildReflectionConfigBase
 
     public void ApplyIOSConfig()
     {
+        google_analytics_default_allow_analytics_storage = true;
+        google_analytics_default_allow_ad_storage = true;
+        google_analytics_default_allow_ad_user_data = true;
+        google_analytics_default_allow_ad_personalization_signals = true;
+
         AppOpenAdUnitIdApplovin = "07acf81398225f5c";
         BannerAdUnitIdApplovin = "c5264147c2ead9c4";
         InterstitialAdUnitIdApplovin = "3f220ce0044243ac";
