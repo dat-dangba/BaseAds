@@ -58,14 +58,14 @@ namespace DBD.Ads
 
         private void LoadRewardedAd()
         {
-            if (!adsConfig.RewardedAdEnabled) return;
-            rewardedAd.LoadAd(adsConfig.RewardedAdUnitIdAdmob);
+            if (!adsConfig.rewarded_ad_enabled) return;
+            rewardedAd.LoadAd(adsConfig.rewarded_ad_unit_id_admob);
         }
 
         private void LoadInterstitialAd()
         {
-            if (!adsConfig.InterstitialAdEnabled) return;
-            interstitialAd.LoadAd(adsConfig.InterstitialAdUnitIdAdmob);
+            if (!adsConfig.interstitial_ad_enabled) return;
+            interstitialAd.LoadAd(adsConfig.interstitial_ad_unit_id_admob);
         }
 
         // private void LoadBannerCollapsibleAd()
@@ -76,14 +76,14 @@ namespace DBD.Ads
 
         private void LoadBannerAd()
         {
-            if (!adsConfig.BannerAdEnabled) return;
-            bannerAd.LoadAd(adsConfig.BannerAdUnitIdAdmob);
+            if (!adsConfig.banner_ad_enabled) return;
+            bannerAd.LoadAd(adsConfig.banner_ad_unit_id_admob);
         }
 
         private void LoadAppOpenAd()
         {
-            if (!adsConfig.AppOpenAdEnabled) return;
-            appOpenAd.LoadAd(adsConfig.AppOpenAdUnitIdAdmob);
+            if (!adsConfig.app_open_ad_enabled) return;
+            appOpenAd.LoadAd(adsConfig.app_open_ad_unit_id_admob);
         }
     }
 }

@@ -54,26 +54,26 @@ namespace DBD.Ads
 
         private void LoadRewardedAd()
         {
-            if (!adsConfig.RewardedAdEnabled) return;
-            rewardedAdAd.LoadAd(adsConfig.RewardedAdUnitIdApplovin);
+            if (!adsConfig.rewarded_ad_enabled) return;
+            rewardedAdAd.LoadAd(adsConfig.rewarded_ad_unit_id_applovin);
         }
 
         private void LoadInterstitialAd()
         {
-            if (!adsConfig.InterstitialAdEnabled) return;
-            interstitialAd.LoadAd(adsConfig.InterstitialAdUnitIdApplovin);
+            if (!adsConfig.interstitial_ad_enabled) return;
+            interstitialAd.LoadAd(adsConfig.interstitial_ad_unit_id_applovin);
         }
 
         private void LoadBannerAd()
         {
-            if (!adsConfig.BannerAdEnabled) return;
-            bannerAd.LoadAd(adsConfig.BannerAdUnitIdApplovin);
+            if (!adsConfig.banner_ad_enabled) return;
+            bannerAd.LoadAd(adsConfig.banner_ad_unit_id_applovin);
         }
 
         private void LoadAppOpenAd()
         {
-            if (!adsConfig.AppOpenAdEnabled) return;
-            appOpenAd.LoadAd(adsConfig.AppOpenAdUnitIdApplovin);
+            if (!adsConfig.app_open_ad_enabled) return;
+            appOpenAd.LoadAd(adsConfig.app_open_ad_unit_id_applovin);
         }
     }
 }

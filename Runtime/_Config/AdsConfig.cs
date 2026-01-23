@@ -18,74 +18,62 @@ namespace DBD.Ads
         [BuildKey] [HideInInspector] public bool google_analytics_default_allow_ad_user_data = true;
         [BuildKey] [HideInInspector] public bool google_analytics_default_allow_ad_personalization_signals = true;
 
-        [Header("Applovin")] [BuildKey("app_open_ad_unit_id_applovin")]
-        public string AppOpenAdUnitIdApplovin;
+        [Header("Applovin")] [BuildKey] public string app_open_ad_unit_id_applovin;
 
-        [BuildKey("banner_ad_unit_id_applovin")]
-        public string BannerAdUnitIdApplovin;
+        [BuildKey] public string banner_ad_unit_id_applovin;
 
-        [BuildKey("interstitial_ad_unit_id_applovin")]
-        public string InterstitialAdUnitIdApplovin;
+        [BuildKey] public string interstitial_ad_unit_id_applovin;
 
-        [BuildKey("rewarded_ad_unit_id_applovin")]
-        public string RewardedAdUnitIdApplovin;
+        [BuildKey] public string rewarded_ad_unit_id_applovin;
 
-        [Space(10)] [Header("Admob")] [BuildKey("app_open_ad_unit_id_admob")]
-        public string AppOpenAdUnitIdAdmob;
+        [Space(10)] [Header("Admob")] [BuildKey]
+        public string app_open_ad_unit_id_admob;
 
-        [BuildKey("banner_ad_unit_id_admob")] public string BannerAdUnitIdAdmob;
+        [BuildKey] public string banner_ad_unit_id_admob;
 
         // [BuildKey("banner_collapsible_ad_unit_id_admob")]
         // public string BannerCollapsibleAdUnitIdAdmob;
 
-        [BuildKey("interstitial_ad_unit_id_admob")]
-        public string InterstitialAdUnitIdAdmob;
+        [BuildKey] public string interstitial_ad_unit_id_admob;
 
-        [BuildKey("rewarded_ad_unit_id_admob")]
-        public string RewardedAdUnitIdAdmob;
+        [BuildKey] public string rewarded_ad_unit_id_admob;
 
-        [Space(10)] [Header("Config")] [BuildKey("app_open_ad_enabled", false)]
-        public bool AppOpenAdEnabled;
+        [Space(10)] [Header("Config")] [BuildKey(false)]
+        public bool app_open_ad_enabled;
 
-        [BuildKey("banner_ad_enabled", false)] public bool BannerAdEnabled;
+        [BuildKey(false)] public bool banner_ad_enabled;
 
         // [BuildKey("banner_collapsible_ad_enabled")]
         // public bool BannerCollapsibleAdEnabled;
 
-        [BuildKey("interstitial_ad_enabled", false)]
-        public bool InterstitialAdEnabled = true;
+        [BuildKey(false)] public bool interstitial_ad_enabled = true;
 
-        [BuildKey("rewarded_ad_enabled", false)]
-        public bool RewardedAdEnabled = true;
+        [BuildKey(false)] public bool rewarded_ad_enabled = true;
 
-        [Space(10)] [BuildKey("app_open_ad_network", false)]
-        public AdNetwork AppOpenAdNetWork = AdNetwork.Admob;
+        [Space(10)] [BuildKey(false)] public AdNetwork app_open_ad_network = AdNetwork.Admob;
 
-        [BuildKey("banner_ad_network", false)] public AdNetwork BannerAdNetWork = AdNetwork.Applovin;
+        [BuildKey(false)] public AdNetwork banner_ad_network = AdNetwork.Applovin;
 
-        [BuildKey("interstitial_ad_network", false)]
-        public AdNetwork InterstitialAdNetWork = AdNetwork.Applovin;
+        [BuildKey(false)] public AdNetwork interstitial_ad_network = AdNetwork.Applovin;
 
-        [BuildKey("rewarded_ad_network", false)]
-        public AdNetwork RewardedAdNetWork = AdNetwork.Applovin;
+        [BuildKey(false)] public AdNetwork rewarded_ad_network = AdNetwork.Applovin;
 
-        [Space(10)] [BuildKey("interstitial_ad_cool_down", false)]
-        public float InterstitialAdCoolDown = 60;
+        [Space(10)] [BuildKey(false)] public float interstitial_ad_cool_down = 60;
 
         public string GetUnitId(AdFormat format, AdNetwork network)
         {
             return (format, network) switch
             {
-                (AdFormat.APP_OPEN, AdNetwork.Applovin) => AppOpenAdUnitIdApplovin,
-                (AdFormat.BANNER, AdNetwork.Applovin) => BannerAdUnitIdApplovin,
-                (AdFormat.INTERSTITIAL, AdNetwork.Applovin) => InterstitialAdUnitIdApplovin,
-                (AdFormat.REWARDED, AdNetwork.Applovin) => RewardedAdUnitIdApplovin,
+                (AdFormat.APP_OPEN, AdNetwork.Applovin) => app_open_ad_unit_id_applovin,
+                (AdFormat.BANNER, AdNetwork.Applovin) => banner_ad_unit_id_applovin,
+                (AdFormat.INTERSTITIAL, AdNetwork.Applovin) => interstitial_ad_unit_id_applovin,
+                (AdFormat.REWARDED, AdNetwork.Applovin) => rewarded_ad_unit_id_applovin,
 
-                (AdFormat.APP_OPEN, AdNetwork.Admob) => AppOpenAdUnitIdAdmob,
-                (AdFormat.BANNER, AdNetwork.Admob) => BannerAdUnitIdAdmob,
+                (AdFormat.APP_OPEN, AdNetwork.Admob) => app_open_ad_unit_id_admob,
+                (AdFormat.BANNER, AdNetwork.Admob) => banner_ad_unit_id_admob,
                 // (AdFormat.BANNER_COLLAPSIBLE, AdNetwork.Admob) => BannerCollapsibleAdUnitIdAdmob,
-                (AdFormat.INTERSTITIAL, AdNetwork.Admob) => InterstitialAdUnitIdAdmob,
-                (AdFormat.REWARDED, AdNetwork.Admob) => RewardedAdUnitIdAdmob,
+                (AdFormat.INTERSTITIAL, AdNetwork.Admob) => interstitial_ad_unit_id_admob,
+                (AdFormat.REWARDED, AdNetwork.Admob) => rewarded_ad_unit_id_admob,
 
                 _ => string.Empty
             };
@@ -98,16 +86,16 @@ namespace DBD.Ads
             google_analytics_default_allow_ad_user_data = true;
             google_analytics_default_allow_ad_personalization_signals = true;
 
-            AppOpenAdUnitIdApplovin = "413984c574766b2e";
-            BannerAdUnitIdApplovin = "c1db37c89406332c";
-            InterstitialAdUnitIdApplovin = "c9638fd386ac26f8";
-            RewardedAdUnitIdApplovin = "eb2dd406960e6661";
+            app_open_ad_unit_id_applovin = "413984c574766b2e";
+            banner_ad_unit_id_applovin = "c1db37c89406332c";
+            interstitial_ad_unit_id_applovin = "c9638fd386ac26f8";
+            rewarded_ad_unit_id_applovin = "eb2dd406960e6661";
 
-            AppOpenAdUnitIdAdmob = "ca-app-pub-3940256099942544/9257395921";
-            BannerAdUnitIdAdmob = "ca-app-pub-3940256099942544/6300978111";
+            app_open_ad_unit_id_admob = "ca-app-pub-3940256099942544/9257395921";
+            banner_ad_unit_id_admob = "ca-app-pub-3940256099942544/6300978111";
             // BannerCollapsibleAdUnitIdAdmob = "ca-app-pub-3940256099942544/2014213617";
-            InterstitialAdUnitIdAdmob = "ca-app-pub-3940256099942544/1033173712";
-            RewardedAdUnitIdAdmob = "ca-app-pub-3940256099942544/5224354917";
+            interstitial_ad_unit_id_admob = "ca-app-pub-3940256099942544/1033173712";
+            rewarded_ad_unit_id_admob = "ca-app-pub-3940256099942544/5224354917";
         }
 
         public void ApplyIOSConfig()
@@ -117,16 +105,16 @@ namespace DBD.Ads
             google_analytics_default_allow_ad_user_data = true;
             google_analytics_default_allow_ad_personalization_signals = true;
 
-            AppOpenAdUnitIdApplovin = "07acf81398225f5c";
-            BannerAdUnitIdApplovin = "c5264147c2ead9c4";
-            InterstitialAdUnitIdApplovin = "3f220ce0044243ac";
-            RewardedAdUnitIdApplovin = "a66614e192e32163";
+            app_open_ad_unit_id_applovin = "07acf81398225f5c";
+            banner_ad_unit_id_applovin = "c5264147c2ead9c4";
+            interstitial_ad_unit_id_applovin = "3f220ce0044243ac";
+            rewarded_ad_unit_id_applovin = "a66614e192e32163";
 
-            AppOpenAdUnitIdAdmob = "ca-app-pub-3940256099942544/9257395921";
-            BannerAdUnitIdAdmob = "ca-app-pub-3940256099942544/6300978111";
+            app_open_ad_unit_id_admob = "ca-app-pub-3940256099942544/9257395921";
+            banner_ad_unit_id_admob = "ca-app-pub-3940256099942544/6300978111";
             // BannerCollapsibleAdUnitIdAdmob = "ca-app-pub-3940256099942544/2014213617";
-            InterstitialAdUnitIdAdmob = "ca-app-pub-3940256099942544/1033173712";
-            RewardedAdUnitIdAdmob = "ca-app-pub-3940256099942544/5224354917";
+            interstitial_ad_unit_id_admob = "ca-app-pub-3940256099942544/1033173712";
+            rewarded_ad_unit_id_admob = "ca-app-pub-3940256099942544/5224354917";
         }
     }
 }

@@ -197,7 +197,7 @@ namespace DBD.Ads
         {
             admob.Init(adsConfig);
             applovin.Init(adsConfig);
-            if (!adsConfig.AppOpenAdEnabled) return;
+            if (!adsConfig.app_open_ad_enabled) return;
             admob.AppOpenAd.SetShowResumeGame(CanShowAppOpenAd(AppOpenResumeGame));
             applovin.AppOpenAd.SetShowResumeGame(CanShowAppOpenAd(AppOpenResumeGame));
         }
@@ -233,7 +233,7 @@ namespace DBD.Ads
                 return;
             }
 
-            switch (adsConfig.AppOpenAdNetWork)
+            switch (adsConfig.app_open_ad_network)
             {
                 case AdNetwork.Applovin:
                     applovin.AppOpenAd.Show(b => { OnAppOpenAdClose(b, OnAdClose, adPlacement); }, adPlacement);
@@ -263,7 +263,7 @@ namespace DBD.Ads
 
         public virtual bool CanShowAppOpenAd(string adPlacement)
         {
-            return adsConfig.AppOpenAdEnabled && CanShowAppOpenAdInternal(adPlacement);
+            return adsConfig.app_open_ad_enabled && CanShowAppOpenAdInternal(adPlacement);
         }
 
         protected abstract bool CanShowAppOpenAdInternal(string adPlacement);
@@ -274,7 +274,7 @@ namespace DBD.Ads
 
         public void HideBannerAd()
         {
-            switch (adsConfig.BannerAdNetWork)
+            switch (adsConfig.banner_ad_network)
             {
                 case AdNetwork.Admob:
                     admob.BannerAd.Show(false, "");
@@ -289,7 +289,7 @@ namespace DBD.Ads
         {
             if (!CanShowBannerAd(adPlacement)) return;
 
-            switch (adsConfig.BannerAdNetWork)
+            switch (adsConfig.banner_ad_network)
             {
                 case AdNetwork.Admob:
                     admob.BannerAd.Show(true, adPlacement);
@@ -302,9 +302,9 @@ namespace DBD.Ads
 
         public virtual void ShowBannerAd()
         {
-            if (!adsConfig.BannerAdEnabled) return;
+            if (!adsConfig.banner_ad_enabled) return;
 
-            switch (adsConfig.BannerAdNetWork)
+            switch (adsConfig.banner_ad_network)
             {
                 case AdNetwork.Admob:
                     admob.BannerAd.Show();
@@ -317,7 +317,7 @@ namespace DBD.Ads
 
         public virtual bool CanShowBannerAd(string adPlacement)
         {
-            return adsConfig.BannerAdEnabled && CanShowBannerAdInternal(adPlacement);
+            return adsConfig.banner_ad_enabled && CanShowBannerAdInternal(adPlacement);
         }
 
         protected abstract bool CanShowBannerAdInternal(string adPlacement);
@@ -360,7 +360,7 @@ namespace DBD.Ads
 
         public bool IsInterstitialAdReady()
         {
-            return adsConfig.InterstitialAdNetWork switch
+            return adsConfig.interstitial_ad_network switch
             {
                 AdNetwork.Applovin => applovin.InterstitialAd.IsAdReady(),
                 AdNetwork.Admob => admob.InterstitialAd.IsAdReady(),
@@ -375,7 +375,7 @@ namespace DBD.Ads
                 || !CanShowInterstitialAfterCooldown(adPlacement)
                ) return;
 
-            switch (adsConfig.InterstitialAdNetWork)
+            switch (adsConfig.interstitial_ad_network)
             {
                 case AdNetwork.Applovin:
                     applovin.InterstitialAd.Show(
@@ -408,7 +408,7 @@ namespace DBD.Ads
 
         public virtual bool CanShowInterstitialAd(string adPlacement)
         {
-            return adsConfig.InterstitialAdEnabled && CanShowInterstitialAdInternal(adPlacement);
+            return adsConfig.interstitial_ad_enabled && CanShowInterstitialAdInternal(adPlacement);
         }
 
         protected abstract bool CanShowInterstitialAdInternal(string adPlacement);
@@ -421,7 +421,7 @@ namespace DBD.Ads
 
         public bool IsRewardedAdReady()
         {
-            switch (adsConfig.RewardedAdNetWork)
+            switch (adsConfig.rewarded_ad_network)
             {
                 case AdNetwork.Admob:
                     return admob.RewardedAd.IsAdReady();
@@ -441,7 +441,7 @@ namespace DBD.Ads
                 return;
             }
 
-            switch (adsConfig.RewardedAdNetWork)
+            switch (adsConfig.rewarded_ad_network)
             {
                 case AdNetwork.Admob:
                     admob.RewardedAd.Show(OnAdDisplayed, OnAdReceived, adPlacement);
@@ -454,7 +454,7 @@ namespace DBD.Ads
 
         public virtual bool CanShowRewardedAd(string adPlacement)
         {
-            return adsConfig.RewardedAdEnabled && CanShowRewardedAdInternal(adPlacement);
+            return adsConfig.rewarded_ad_enabled && CanShowRewardedAdInternal(adPlacement);
         }
 
         protected abstract bool CanShowRewardedAdInternal(string adPlacement);
