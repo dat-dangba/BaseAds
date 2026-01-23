@@ -35,11 +35,13 @@ namespace DBD.Ads.Editor
         {
             foreach (var field in config.GetBuildFields())
             {
+                bool isAddKeyConfig = config.IsAddKeyConfig(field);
+                if (!isAddKeyConfig) continue;
+
                 string key = config.GetKey(field);
                 string value = ConvertValue(field.GetValue(config));
 
                 if (string.IsNullOrEmpty(value)) continue;
-
 
                 var manifest = xml.SelectSingleNode("/manifest");
                 var application = manifest.SelectSingleNode("application");

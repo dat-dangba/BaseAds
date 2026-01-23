@@ -21,5 +21,11 @@ namespace DBD.Ads
                 ? field.Name
                 : attr.customKey;
         }
+
+        public bool IsAddKeyConfig(FieldInfo field)
+        {
+            var attr = field.GetCustomAttribute<BuildKeyAttribute>();
+            return attr.isAddKeyConfig;
+        }
     }
 }

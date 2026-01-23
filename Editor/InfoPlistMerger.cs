@@ -34,6 +34,9 @@ namespace DBD.Ads.Editor
         {
             foreach (var field in config.GetBuildFields())
             {
+                bool isAddKeyConfig = config.IsAddKeyConfig(field);
+                if (!isAddKeyConfig) continue;
+
                 string key = config.GetKey(field);
                 object rawValue = field.GetValue(config);
 

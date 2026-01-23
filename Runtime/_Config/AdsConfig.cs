@@ -7,7 +7,7 @@ namespace DBD.Ads
         private void Reset()
         {
 #if UNITY_EDITOR && UNITY_IOS
-        ApplyIOSConfig();
+            ApplyIOSConfig();
 #else
             ApplyAndroidConfig();
 #endif
@@ -44,25 +44,32 @@ namespace DBD.Ads
         [BuildKey("rewarded_ad_unit_id_admob")]
         public string RewardedAdUnitIdAdmob;
 
-        [Space(10)] [Header("Config")] [BuildKey("app_open_ad_enabled")]
+        [Space(10)] [Header("Config")] [BuildKey("app_open_ad_enabled", false)]
         public bool AppOpenAdEnabled;
 
-        [BuildKey("banner_ad_enabled")] public bool BannerAdEnabled;
+        [BuildKey("banner_ad_enabled", false)] public bool BannerAdEnabled;
 
         // [BuildKey("banner_collapsible_ad_enabled")]
         // public bool BannerCollapsibleAdEnabled;
 
-        [BuildKey("interstitial_ad_enabled")] public bool InterstitialAdEnabled = true;
-        [BuildKey("rewarded_ad_enabled")] public bool RewardedAdEnabled = true;
+        [BuildKey("interstitial_ad_enabled", false)]
+        public bool InterstitialAdEnabled = true;
 
-        [Space(10)] [BuildKey("app_open_ad_network")]
+        [BuildKey("rewarded_ad_enabled", false)]
+        public bool RewardedAdEnabled = true;
+
+        [Space(10)] [BuildKey("app_open_ad_network", false)]
         public AdNetwork AppOpenAdNetWork = AdNetwork.Admob;
 
-        [BuildKey("banner_ad_network")] public AdNetwork BannerAdNetWork = AdNetwork.Applovin;
-        [BuildKey("interstitial_ad_network")] public AdNetwork InterstitialAdNetWork = AdNetwork.Applovin;
-        [BuildKey("rewarded_ad_network")] public AdNetwork RewardedAdNetWork = AdNetwork.Applovin;
+        [BuildKey("banner_ad_network", false)] public AdNetwork BannerAdNetWork = AdNetwork.Applovin;
 
-        [Space(10)] [BuildKey("interstitial_ad_cool_down")]
+        [BuildKey("interstitial_ad_network", false)]
+        public AdNetwork InterstitialAdNetWork = AdNetwork.Applovin;
+
+        [BuildKey("rewarded_ad_network", false)]
+        public AdNetwork RewardedAdNetWork = AdNetwork.Applovin;
+
+        [Space(10)] [BuildKey("interstitial_ad_cool_down", false)]
         public float InterstitialAdCoolDown = 60;
 
         public string GetUnitId(AdFormat format, AdNetwork network)
