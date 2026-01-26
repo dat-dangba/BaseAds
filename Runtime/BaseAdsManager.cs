@@ -25,8 +25,8 @@ namespace DBD.Ads
         public bool IsRemoveAds { get; private set; }
         public bool IsInit { get; private set; }
 
-        private const string AppOpenStartGame = "app_open_start_game";
-        private const string AppOpenResumeGame = "app_open_resume_game";
+        private const string AppOpenStartGame = "app_open_ad_start_game";
+        private const string AppOpenResumeGame = "app_open_ad_resume_game";
 
 #if UNITY_EDITOR
         private void Setup()
