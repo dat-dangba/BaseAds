@@ -373,7 +373,11 @@ namespace DBD.Ads
             if (!CanShowInterstitialAd(adPlacement)
                 || !IsInterstitialAdReady()
                 || !CanShowInterstitialAfterCooldown(adPlacement)
-               ) return;
+               )
+            {
+                OnAdClose?.Invoke(false);
+                return;
+            }
 
             switch (adsConfig.interstitial_ad_network)
             {
