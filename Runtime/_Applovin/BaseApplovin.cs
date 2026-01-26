@@ -50,7 +50,7 @@ namespace DBD.Ads
         {
             AdEventData adEventData = new AdEventData
             {
-                AdNetwork = AdNetwork.Applovin,
+                AdNetwork = AdNetwork.applovin,
                 AdFormat = GetAdFormat(),
                 AdPlacement = adPlacement
             };
@@ -69,7 +69,7 @@ namespace DBD.Ads
         {
             AdPaidEventData adPaidEventData = new AdPaidEventData
             {
-                AdNetwork = AdNetwork.Applovin,
+                AdNetwork = AdNetwork.applovin,
                 AdFormat = GetAdFormat(),
                 AdPlacement = adPlacement,
                 Revenue = adInfo.Revenue,

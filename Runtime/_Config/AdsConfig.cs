@@ -50,13 +50,13 @@ namespace DBD.Ads
 
         [BuildKey(false)] public bool rewarded_ad_enabled = true;
 
-        [Space(10)] [BuildKey(false)] public AdNetwork app_open_ad_network = AdNetwork.Admob;
+        [Space(10)] [BuildKey(false)] public AdNetwork app_open_ad_network = AdNetwork.admob;
 
-        [BuildKey(false)] public AdNetwork banner_ad_network = AdNetwork.Applovin;
+        [BuildKey(false)] public AdNetwork banner_ad_network = AdNetwork.applovin;
 
-        [BuildKey(false)] public AdNetwork interstitial_ad_network = AdNetwork.Applovin;
+        [BuildKey(false)] public AdNetwork interstitial_ad_network = AdNetwork.applovin;
 
-        [BuildKey(false)] public AdNetwork rewarded_ad_network = AdNetwork.Applovin;
+        [BuildKey(false)] public AdNetwork rewarded_ad_network = AdNetwork.applovin;
 
         [Space(10)] [BuildKey(false)] public float interstitial_ad_cool_down = 60;
 
@@ -64,16 +64,16 @@ namespace DBD.Ads
         {
             return (format, network) switch
             {
-                (AdFormat.APP_OPEN, AdNetwork.Applovin) => app_open_ad_unit_id_applovin,
-                (AdFormat.BANNER, AdNetwork.Applovin) => banner_ad_unit_id_applovin,
-                (AdFormat.INTERSTITIAL, AdNetwork.Applovin) => interstitial_ad_unit_id_applovin,
-                (AdFormat.REWARDED, AdNetwork.Applovin) => rewarded_ad_unit_id_applovin,
+                (AdFormat.APP_OPEN, AdNetwork.applovin) => app_open_ad_unit_id_applovin,
+                (AdFormat.BANNER, AdNetwork.applovin) => banner_ad_unit_id_applovin,
+                (AdFormat.INTERSTITIAL, AdNetwork.applovin) => interstitial_ad_unit_id_applovin,
+                (AdFormat.REWARDED, AdNetwork.applovin) => rewarded_ad_unit_id_applovin,
 
-                (AdFormat.APP_OPEN, AdNetwork.Admob) => app_open_ad_unit_id_admob,
-                (AdFormat.BANNER, AdNetwork.Admob) => banner_ad_unit_id_admob,
+                (AdFormat.APP_OPEN, AdNetwork.admob) => app_open_ad_unit_id_admob,
+                (AdFormat.BANNER, AdNetwork.admob) => banner_ad_unit_id_admob,
                 // (AdFormat.BANNER_COLLAPSIBLE, AdNetwork.Admob) => BannerCollapsibleAdUnitIdAdmob,
-                (AdFormat.INTERSTITIAL, AdNetwork.Admob) => interstitial_ad_unit_id_admob,
-                (AdFormat.REWARDED, AdNetwork.Admob) => rewarded_ad_unit_id_admob,
+                (AdFormat.INTERSTITIAL, AdNetwork.admob) => interstitial_ad_unit_id_admob,
+                (AdFormat.REWARDED, AdNetwork.admob) => rewarded_ad_unit_id_admob,
 
                 _ => string.Empty
             };

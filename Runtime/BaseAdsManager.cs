@@ -235,10 +235,10 @@ namespace DBD.Ads
 
             switch (adsConfig.app_open_ad_network)
             {
-                case AdNetwork.Applovin:
+                case AdNetwork.applovin:
                     applovin.AppOpenAd.Show(b => { OnAppOpenAdClose(b, OnAdClose, adPlacement); }, adPlacement);
                     break;
-                case AdNetwork.Admob:
+                case AdNetwork.admob:
                     admob.AppOpenAd.Show(b => { OnAppOpenAdClose(b, OnAdClose, adPlacement); }, adPlacement);
                     break;
                 default:
@@ -276,10 +276,10 @@ namespace DBD.Ads
         {
             switch (adsConfig.banner_ad_network)
             {
-                case AdNetwork.Admob:
+                case AdNetwork.admob:
                     admob.BannerAd.Show(false, "");
                     break;
-                case AdNetwork.Applovin:
+                case AdNetwork.applovin:
                     applovin.BannerAd.Show(false, "");
                     break;
             }
@@ -291,10 +291,10 @@ namespace DBD.Ads
 
             switch (adsConfig.banner_ad_network)
             {
-                case AdNetwork.Admob:
+                case AdNetwork.admob:
                     admob.BannerAd.Show(true, adPlacement);
                     break;
-                case AdNetwork.Applovin:
+                case AdNetwork.applovin:
                     applovin.BannerAd.Show(true, adPlacement);
                     break;
             }
@@ -306,10 +306,10 @@ namespace DBD.Ads
 
             switch (adsConfig.banner_ad_network)
             {
-                case AdNetwork.Admob:
+                case AdNetwork.admob:
                     admob.BannerAd.Show();
                     break;
-                case AdNetwork.Applovin:
+                case AdNetwork.applovin:
                     applovin.BannerAd.Show();
                     break;
             }
@@ -362,8 +362,8 @@ namespace DBD.Ads
         {
             return adsConfig.interstitial_ad_network switch
             {
-                AdNetwork.Applovin => applovin.InterstitialAd.IsAdReady(),
-                AdNetwork.Admob => admob.InterstitialAd.IsAdReady(),
+                AdNetwork.applovin => applovin.InterstitialAd.IsAdReady(),
+                AdNetwork.admob => admob.InterstitialAd.IsAdReady(),
                 _ => false
             };
         }
@@ -377,12 +377,12 @@ namespace DBD.Ads
 
             switch (adsConfig.interstitial_ad_network)
             {
-                case AdNetwork.Applovin:
+                case AdNetwork.applovin:
                     applovin.InterstitialAd.Show(
                         isShowBeforeClose => { OnInterstitialAdClose(isShowBeforeClose, OnAdClose); },
                         adPlacement);
                     break;
-                case AdNetwork.Admob:
+                case AdNetwork.admob:
                     admob.InterstitialAd.Show(
                         isShowBeforeClose => { OnInterstitialAdClose(isShowBeforeClose, OnAdClose); },
                         adPlacement);
@@ -423,9 +423,9 @@ namespace DBD.Ads
         {
             switch (adsConfig.rewarded_ad_network)
             {
-                case AdNetwork.Admob:
+                case AdNetwork.admob:
                     return admob.RewardedAd.IsAdReady();
-                case AdNetwork.Applovin:
+                case AdNetwork.applovin:
                     return applovin.RewardedAdAd.IsAdReady();
                 default:
                     return false;
@@ -443,10 +443,10 @@ namespace DBD.Ads
 
             switch (adsConfig.rewarded_ad_network)
             {
-                case AdNetwork.Admob:
+                case AdNetwork.admob:
                     admob.RewardedAd.Show(OnAdDisplayed, OnAdReceived, adPlacement);
                     break;
-                case AdNetwork.Applovin:
+                case AdNetwork.applovin:
                     applovin.RewardedAdAd.Show(OnAdDisplayed, OnAdReceived, adPlacement);
                     break;
             }
