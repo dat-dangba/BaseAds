@@ -20,6 +20,10 @@ namespace DBD.Ads
         private bool isStartGame;
         private bool canShowAppOpenAdResumeGame = true;
 
+        protected bool IsStartGame => isStartGame;
+
+        protected bool CanShowAppOpenAdResumeGame => canShowAppOpenAdResumeGame;
+
         private float timeShowInterstitial;
 
         public bool IsRemoveAds { get; private set; }
@@ -217,7 +221,7 @@ namespace DBD.Ads
             canShowAppOpenAdResumeGame = canShow;
         }
 
-        private void OnAppStateChanged(AppState state)
+        protected virtual void OnAppStateChanged(AppState state)
         {
             if (state == AppState.Foreground && canShowAppOpenAdResumeGame && isStartGame)
             {
