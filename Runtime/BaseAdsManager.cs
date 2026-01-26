@@ -445,7 +445,6 @@ namespace DBD.Ads
             if (!CanShowRewardedAd(adPlacement))
             {
                 OnAdDisplayed?.Invoke(false);
-                OnAdReceived?.Invoke(false);
                 return;
             }
 
