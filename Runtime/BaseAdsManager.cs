@@ -331,12 +331,12 @@ namespace DBD.Ads
 #if UNITY_EDITOR
             return 170;
 #elif UNITY_ANDROID || UNITY_IOS
-        return adsConfig.BannerAdNetWork switch
-        {
-            AdNetwork.Admob => admob.BannerAd.GetHeightInPixels(),
-            AdNetwork.Applovin => applovin.BannerAd.GetHeightInPixels(),
-            _ => 170
-        };
+            return adsConfig.banner_ad_network switch
+            {
+                AdNetwork.admob => admob.BannerAd.GetHeightInPixels(),
+                AdNetwork.applovin => applovin.BannerAd.GetHeightInPixels(),
+                _ => 170
+            };
 #endif
         }
 
