@@ -176,7 +176,7 @@ namespace DBD.Ads
             UpdateAdsConfig(adsConfig);
 
             Debug.LogWarning($"Ads - Init - isRemoveAds: {isRemoveAds}");
-            if (consent.CanRequestAds)
+            if (CanRequestAds)
             {
                 InitAds();
             }
@@ -185,6 +185,8 @@ namespace DBD.Ads
                 consent.Request();
             }
         }
+
+        public bool CanRequestAds => consent.CanRequestAds;
 
         protected abstract void UpdateAdsConfig(AdsConfig adsConfig);
 
