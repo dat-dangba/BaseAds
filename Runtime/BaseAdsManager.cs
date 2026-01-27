@@ -231,7 +231,7 @@ namespace DBD.Ads
 
         public virtual void ShowAppOpenAd(Action<bool> OnAdClose, string adPlacement = AppOpenStartGame)
         {
-            if (!CanShowAppOpenAd(adPlacement))
+            if (IsRemoveAds || !CanShowAppOpenAd(adPlacement))
             {
                 OnAppOpenAdClose(false, OnAdClose, adPlacement);
                 return;
@@ -291,7 +291,7 @@ namespace DBD.Ads
 
         public virtual void ShowBannerAd(string adPlacement)
         {
-            if (!CanShowBannerAd(adPlacement)) return;
+            if (IsRemoveAds || !CanShowBannerAd(adPlacement)) return;
 
             switch (adsConfig.banner_ad_network)
             {
@@ -306,7 +306,7 @@ namespace DBD.Ads
 
         public virtual void ShowBannerAd()
         {
-            if (!adsConfig.banner_ad_enabled) return;
+            if (IsRemoveAds || !adsConfig.banner_ad_enabled) return;
 
             switch (adsConfig.banner_ad_network)
             {
@@ -374,7 +374,8 @@ namespace DBD.Ads
 
         public void ShowInterstitialAd(Action<bool> OnAdClose, string adPlacement)
         {
-            if (!CanShowInterstitialAd(adPlacement)
+            if (IsRemoveAds
+                || !CanShowInterstitialAd(adPlacement)
                 || !IsInterstitialAdReady()
                 || !CanShowInterstitialAfterCooldown(adPlacement)
                )
@@ -467,5 +468,11 @@ namespace DBD.Ads
         protected abstract bool CanShowRewardedAdInternal(string adPlacement);
 
         #endregion
+
+        public virtual void RemoveAds()
+        {
+            IsRemoveAds = true;
+            HideBannerAd();
+        }
     }
 }
