@@ -27,5 +27,11 @@ namespace DBD.Ads
             var attr = field.GetCustomAttribute<BuildKeyAttribute>();
             return attr.isAddKeyConfig;
         }
+
+        public bool IsManifestPlaceHolder(FieldInfo field)
+        {
+            var attr = field.GetCustomAttribute<BuildKeyAttribute>();
+            return attr.isManifestPlaceHolder;
+        }
     }
 }

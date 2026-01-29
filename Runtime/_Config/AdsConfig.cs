@@ -13,10 +13,17 @@ namespace DBD.Ads
 #endif
         }
 
-        [BuildKey] [HideInInspector] public bool google_analytics_default_allow_analytics_storage = true;
-        [BuildKey] [HideInInspector] public bool google_analytics_default_allow_ad_storage = true;
-        [BuildKey] [HideInInspector] public bool google_analytics_default_allow_ad_user_data = true;
-        [BuildKey] [HideInInspector] public bool google_analytics_default_allow_ad_personalization_signals = true;
+        [BuildKey(true, false)] [HideInInspector]
+        public bool google_analytics_default_allow_analytics_storage = true;
+
+        [BuildKey(true, false)] [HideInInspector]
+        public bool google_analytics_default_allow_ad_storage = true;
+
+        [BuildKey(true, false)] [HideInInspector]
+        public bool google_analytics_default_allow_ad_user_data = true;
+
+        [BuildKey(true, false)] [HideInInspector]
+        public bool google_analytics_default_allow_ad_personalization_signals = true;
 
         [Header("Applovin")] [BuildKey] public string app_open_ad_unit_id_applovin;
 
@@ -38,27 +45,27 @@ namespace DBD.Ads
 
         [BuildKey] public string rewarded_ad_unit_id_admob;
 
-        [Space(10)] [Header("Config")] [BuildKey(false)]
+        [Space(10)] [Header("Config")] [BuildKey(false, false)]
         public bool app_open_ad_enabled;
 
-        [BuildKey(false)] public bool banner_ad_enabled;
+        [BuildKey(false, false)] public bool banner_ad_enabled;
 
         // [BuildKey("banner_collapsible_ad_enabled")]
         // public bool BannerCollapsibleAdEnabled;
 
-        [BuildKey(false)] public bool interstitial_ad_enabled = true;
+        [BuildKey(false, false)] public bool interstitial_ad_enabled = true;
 
-        [BuildKey(false)] public bool rewarded_ad_enabled = true;
+        [BuildKey(false, false)] public bool rewarded_ad_enabled = true;
 
-        [Space(10)] [BuildKey(false)] public AdNetwork app_open_ad_network = AdNetwork.admob;
+        [Space(10)] [BuildKey(false, false)] public AdNetwork app_open_ad_network = AdNetwork.admob;
 
-        [BuildKey(false)] public AdNetwork banner_ad_network = AdNetwork.applovin;
+        [BuildKey(false, false)] public AdNetwork banner_ad_network = AdNetwork.applovin;
 
-        [BuildKey(false)] public AdNetwork interstitial_ad_network = AdNetwork.applovin;
+        [BuildKey(false, false)] public AdNetwork interstitial_ad_network = AdNetwork.applovin;
 
-        [BuildKey(false)] public AdNetwork rewarded_ad_network = AdNetwork.applovin;
+        [BuildKey(false, false)] public AdNetwork rewarded_ad_network = AdNetwork.applovin;
 
-        [Space(10)] [BuildKey(false)] public float interstitial_ad_cool_down = 60;
+        [Space(10)] [BuildKey(false, false)] public float interstitial_ad_cool_down = 60;
 
         public string GetUnitId(AdFormat format, AdNetwork network)
         {
