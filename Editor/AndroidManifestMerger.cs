@@ -1,35 +1,14 @@
 #if UNITY_EDITOR && UNITY_ANDROID
 using System.IO;
 using System.Xml;
-using UnityEditor;
-using UnityEditor.Callbacks;
+using UnityEditor.Android;
 using UnityEngine;
 
 namespace DBD.Ads.Editor
 {
-    public static class AndroidManifestMerger
+    public class AndroidManifestMerger : IPostGenerateGradleAndroidProject
     {
         private const string ANDROID_NS = "http://schemas.android.com/apk/res/android";
-
-        [PostProcessBuild]
-        public static void OnPostprocessBuild(BuildTarget buildTarget, string pathToBuiltProject)
-        {
-            if (buildTarget != BuildTarget.Android)
-                return;
-
-            string manifestPath = Path.Combine(pathToBuiltProject, "launcher/src/main/AndroidManifest.xml");
-
-            var xml = new XmlDocument();
-            xml.Load(manifestPath);
-
-            var configs = Resources.LoadAll<BuildReflectionConfigBase>("");
-            foreach (var cfg in configs)
-            {
-                ApplyAndroid(xml, cfg);
-            }
-
-            xml.Save(manifestPath);
-        }
 
         private static void ApplyAndroid(XmlDocument xml, BuildReflectionConfigBase config)
         {
@@ -74,6 +53,37 @@ namespace DBD.Ads.Editor
                 string s => s,
                 _ => value.ToString()
             };
+        }
+
+        public int callbackOrder { get; }
+
+        public void OnPostGenerateGradleAndroidProject(string pathToBuiltProject)
+        {
+            string manifestPath;
+            if (pathToBuiltProject.Contains("unityLibrary"))
+            {
+                var pathProject = pathToBuiltProject.Replace("unityLibrary", "");
+                manifestPath = Path.Combine(pathProject, "launcher/src/main/AndroidManifest.xml");
+            }
+            else if (pathToBuiltProject.Contains("launcher"))
+            {
+                manifestPath = Path.Combine(pathToBuiltProject, "src/main/AndroidManifest.xml");
+            }
+            else
+            {
+                manifestPath = Path.Combine(pathToBuiltProject, "launcher/src/main/AndroidManifest.xml");
+            }
+
+            var xml = new XmlDocument();
+            xml.Load(manifestPath);
+
+            var configs = Resources.LoadAll<BuildReflectionConfigBase>("");
+            foreach (var cfg in configs)
+            {
+                ApplyAndroid(xml, cfg);
+            }
+
+            xml.Save(manifestPath);
         }
     }
 }
