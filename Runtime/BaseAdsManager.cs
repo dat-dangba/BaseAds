@@ -26,7 +26,7 @@ namespace DBD.Ads
 
         private float timeShowInterstitial;
 
-        public bool IsRemoveAds { get; private set; }
+        public bool IsRemoveAds => adsConfig.is_remove_ads;
         public bool IsInit { get; private set; }
 
         private const string AppOpenStartGame = "app_open_ad_start_game";
@@ -169,10 +169,8 @@ namespace DBD.Ads
                 return;
             }
 
-            IsRemoveAds = isRemoveAds;
-
             IsInit = true;
-
+            adsConfig.is_remove_ads = isRemoveAds;
             UpdateAdsConfig(adsConfig);
 
             Debug.LogWarning($"Ads - Init - isRemoveAds: {isRemoveAds}");
@@ -473,7 +471,7 @@ namespace DBD.Ads
 
         public virtual void RemoveAds()
         {
-            IsRemoveAds = true;
+            adsConfig.is_remove_ads = true;
             HideBannerAd();
         }
     }

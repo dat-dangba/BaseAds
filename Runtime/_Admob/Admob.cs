@@ -64,7 +64,9 @@ namespace DBD.Ads
 
         private void LoadInterstitialAd()
         {
-            if (!adsConfig.interstitial_ad_enabled || adsConfig.interstitial_ad_network != AdNetwork.admob) return;
+            if (adsConfig.is_remove_ads
+                || !adsConfig.interstitial_ad_enabled
+                || adsConfig.interstitial_ad_network != AdNetwork.admob) return;
             interstitialAd.LoadAd(adsConfig.interstitial_ad_unit_id_admob);
         }
 
@@ -76,13 +78,17 @@ namespace DBD.Ads
 
         private void LoadBannerAd()
         {
-            if (!adsConfig.banner_ad_enabled || adsConfig.banner_ad_network != AdNetwork.admob) return;
+            if (adsConfig.is_remove_ads
+                || !adsConfig.banner_ad_enabled
+                || adsConfig.banner_ad_network != AdNetwork.admob) return;
             bannerAd.LoadAd(adsConfig.banner_ad_unit_id_admob);
         }
 
         private void LoadAppOpenAd()
         {
-            if (!adsConfig.app_open_ad_enabled || adsConfig.app_open_ad_network != AdNetwork.admob) return;
+            if (adsConfig.is_remove_ads
+                || !adsConfig.app_open_ad_enabled
+                || adsConfig.app_open_ad_network != AdNetwork.admob) return;
             appOpenAd.LoadAd(adsConfig.app_open_ad_unit_id_admob);
         }
     }

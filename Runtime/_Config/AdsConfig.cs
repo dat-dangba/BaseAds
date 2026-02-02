@@ -13,6 +13,8 @@ namespace DBD.Ads
 #endif
         }
 
+        [HideInInspector] public bool is_remove_ads;
+
         [BuildKey(true, false)] [HideInInspector]
         public bool google_analytics_default_allow_analytics_storage = true;
 

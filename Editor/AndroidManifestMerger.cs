@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Xml;
 using UnityEditor.Android;
 using UnityEngine;
@@ -89,12 +88,30 @@ namespace DBD.Ads.Editor
             var xml = new XmlDocument();
             xml.Load(manifestPath);
             var manifest = xml.SelectSingleNode("/manifest");
+            if (manifest == null)
+            {
+                Debug.LogError($"Không tìm thấy thẻ manifest trong file {manifestPath}");
+                return;
+            }
+
             var application = manifest.SelectSingleNode("application");
+            if (application == null)
+            {
+                Debug.LogError($"Không tìm thấy thẻ application trong manifest {manifestPath}");
+                return;
+            }
+
             foreach (var (key, (value, isManifestPlaceHolder)) in configDict)
             {
-                foreach (XmlNode node in application.SelectNodes("meta-data"))
+                var nodes = application.SelectNodes("meta-data");
+                if (nodes == null)
                 {
-                    if (node.Attributes["android:name"]?.Value == key)
+                    continue;
+                }
+
+                foreach (XmlNode node in nodes)
+                {
+                    if (node.Attributes != null && node.Attributes["android:name"]?.Value == key)
                     {
                         node.Attributes["android:value"].Value = value;
                         return;
