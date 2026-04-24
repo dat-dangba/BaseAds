@@ -95,5 +95,13 @@ namespace DBD.Ads
             MaxSdk.CreateBanner(adUnitId, new MaxSdkBase.AdViewConfiguration(MaxSdkBase.AdViewPosition.BottomCenter));
             MaxSdk.SetBannerBackgroundColor(adUnitId, Color.white);
         }
+
+        private void OnApplicationFocus(bool hasFocus)
+        {
+            if (hasFocus && isInit && isShow)
+            {
+                MaxSdk.UpdateBannerPosition(adUnitId, MaxSdkBase.AdViewPosition.BottomCenter);
+            }
+        }
     }
 }
